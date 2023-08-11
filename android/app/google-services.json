@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "739588250426",
+    "project_id": "fypstitchvision",
+    "storage_bucket": "fypstitchvision.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:739588250426:android:6fd1533d647c7dd2e80e03",
+        "android_client_info": {
+          "package_name": "com.example.fyp_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "739588250426-gnaj7s14kk55a7v49tqnbl1i55r21g5t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAq7SUvne0ZnuC07lpcZVr1U93UKMEtJWY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "739588250426-gnaj7s14kk55a7v49tqnbl1i55r21g5t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "739588250426-j0cn5jqu7q57i1cb3hot1aetsc3rhbjq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.fypProject"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
