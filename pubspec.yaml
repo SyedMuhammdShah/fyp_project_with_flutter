@@ -41,6 +41,33 @@ dependencies:
   cloud_firestore: ^4.8.4
   firebase_auth: ^4.7.2
   fluttertoast: ^8.2.2
+  firebase_storage: ^11.2.5
+  path_provider: ^2.1.0
+  path: ^1.8.2
+  molten_navigationbar_flutter: ^1.0.1
+  google_nav_bar: ^5.0.6
+  sidebarx: ^0.16.1
+  easy_sidemenu: ^0.5.0
+  custom_sidemenu: ^0.0.3
+  flutter_carousel_slider: ^1.1.0
+  nopsuite_carousel_slider: ^0.0.3
+  flutter_custom_carousel_slider: ^1.2.0
+  intl_phone_field: ^3.2.0
+  syncfusion_flutter_charts: ^23.1.38
+  fl_chart: ^0.62.0
+  animations: ^2.0.8
+  animated_segmented_tab_control: ^1.2.0
+  carousel_slider: ^4.2.1
+  flutter_svg: ^2.0.5
+  modal_progress_hud: ^0.1.3
+  flutter_easyloading: ^3.0.5
+  stylish_dialog: ^1.0.2
+  mirai_dropdown_menu: ^0.0.6+2
+  custom_radio_grouped_button: ^2.2.1
+  advance_image_picker: ^0.1.7+1
+  country_list_pick: ^1.0.1+6
+  csc_picker: ^0.2.7
+  dropdown_textfield: ^1.0.8
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +92,10 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/images/saveIcon.png
+    - assets/images/loveIcon.png
+
+
     - assets/images/sv_logo.png
     - assets/images/google_logo.png
     - assets/images/facebook_logo.png
@@ -73,6 +104,66 @@ flutter:
     - assets/images/Logo.png
     - assets/images/svWhite_logo.png
     - assets/images/loading.gif
+    - assets/images/banner1.jpg
+    - assets/images/banner2.png
+    - assets/images/catApp1.jpg
+    - assets/images/facCat.jpg
+    - assets/images/yarnsCat.jpg
+    - assets/images/trimsCat.png
+    - assets/images/image1.png
+    - assets/images/product1.png
+    - assets/images/Client.png
+    - assets/images/store.png
+    - assets/introduction_animation/care_image.png
+    - assets/introduction_animation/introduction_image.png
+    - assets/introduction_animation/mood_dairy_image.png
+    - assets/introduction_animation/relax_image.png
+    - assets/introduction_animation/welcome.png
+    - assets/fitness_app/Fabrics.png
+    - assets/fitness_app/area1.png
+    - assets/fitness_app/area2.png
+    - assets/fitness_app/area3.png
+    - assets/fitness_app/back.png
+    - assets/fitness_app/bell.png
+    - assets/fitness_app/bottle.png
+    - assets/fitness_app/breakfast.png
+    - assets/fitness_app/burned.png
+    - assets/fitness_app/trims.png
+    - assets/fitness_app/eaten.png
+    - assets/fitness_app/glass.png
+    - assets/fitness_app/yarn.png
+    - assets/fitness_app/runner.png
+    - assets/fitness_app/tab_1.png
+    - assets/fitness_app/tab_1s.png
+    - assets/fitness_app/tab_2.png
+    - assets/fitness_app/tab_2s.png
+    - assets/fitness_app/tab_3.png
+    - assets/fitness_app/tab_3s.png
+    - assets/fitness_app/tab_4.png
+    - assets/fitness_app/tab_4s.png
+
+    - assets/vendors_icons/Fabrics.png
+    - assets/vendors_icons/area1.png
+    - assets/vendors_icons/area2.png
+    - assets/vendors_icons/area3.png
+    - assets/vendors_icons/back.png
+    - assets/vendors_icons/bell.png
+    - assets/vendors_icons/bottle.png
+    - assets/vendors_icons/breakfast.png
+    - assets/vendors_icons/burned.png
+    - assets/vendors_icons/trims.png
+    - assets/vendors_icons/eaten.png
+    - assets/vendors_icons/glass.png
+    - assets/vendors_icons/yarn.png
+    - assets/vendors_icons/runner.png
+    - assets/vendors_icons/tab_1.png
+    - assets/vendors_icons/tab_1s.png
+    - assets/vendors_icons/tab_2.png
+    - assets/vendors_icons/tab_2s.png
+    - assets/vendors_icons/tab_3.png
+    - assets/vendors_icons/tab_3s.png
+    - assets/vendors_icons/tab_4.png
+    - assets/vendors_icons/tab_4s.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

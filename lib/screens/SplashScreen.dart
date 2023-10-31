@@ -5,6 +5,8 @@ import 'package:fyp_project/screens/welcome_screen.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../introduction_animation/introduction_animation_screen.dart';
+
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -28,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen>
       if (status == AnimationStatus.completed) {
         // Animation completed, navigate to the next screen
         // Use Navigator.pushReplacement to avoid coming back to the splash screen
-        Get.to(WelcomeScreen()); // Replace with your route
+        Get.to(IntroductionAnimationScreen()); // Replace with your route
       }
     });
   }
@@ -43,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Color.fromARGB(255, 18, 64, 215),
+        color: Color.fromARGB(255, 21, 220, 184),
         child: Center(
           child: FadeTransition(
             opacity: _animationController,

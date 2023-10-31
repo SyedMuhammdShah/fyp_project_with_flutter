@@ -1,12 +1,16 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:fyp_project/screens/login_screen.dart';
 import 'package:fyp_project/widgets/pickImage.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
+import 'package:firebase_storage/firebase_storage.dart';
 import '../Models/user_model.dart';
 import 'home_screen.dart';
 
@@ -70,15 +74,21 @@ class _SignUpScrennState extends State<SignUpScreen> {
   }
 
   Uint8List? _image;
+  void selectImage() async {
+    final _firebaseStorage = FirebaseStorage.instance;
+
+    Uint8List img = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = img;
+    });
+    // ImagePicker imagePicker = ImagePicker();
+    // // XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
+    // XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
+    // print("image" + '${file?.path}');
+  }
+
   @override
   Widget build(BuildContext context) {
-    void selectImage() async {
-      Uint8List img = await pickImage(ImageSource.gallery);
-      setState(() {
-        _image = img;
-      });
-    }
-
     return Scaffold(
         body: Scaffold(
       body: Form(
@@ -111,16 +121,15 @@ class _SignUpScrennState extends State<SignUpScreen> {
                                   radius: 60,
                                   backgroundImage: MemoryImage(_image!),
                                 )
-                              : CircleAvatar(
+                              : const CircleAvatar(
                                   radius: 60,
                                   backgroundImage: NetworkImage(
                                       "assets/images/user_logo.png"),
-                                  // Image.asset("assets/images/user_logo.png")
                                 ),
                           Positioned(
                             child: IconButton(
                               onPressed: selectImage,
-                              icon: Icon(Icons.add_a_photo_outlined),
+                              icon: const Icon(Icons.add_a_photo_outlined),
                               color: Colors.white,
                             ),
                             bottom: -10,
@@ -128,11 +137,11 @@ class _SignUpScrennState extends State<SignUpScreen> {
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
-                      Text("Full Name"),
-                      SizedBox(
+                      const Text("Full Name"),
+                      const SizedBox(
                         height: 10,
                       ),
                       TextFormField(
@@ -161,11 +170,11 @@ class _SignUpScrennState extends State<SignUpScreen> {
                           // reg expression
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
-                      Text("Email"),
-                      SizedBox(
+                      const Text("Email"),
+                      const SizedBox(
                         height: 10,
                       ),
                       TextFormField(
@@ -194,11 +203,11 @@ class _SignUpScrennState extends State<SignUpScreen> {
                           // reg expression
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Text("Password"),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       TextFormField(
@@ -271,8 +280,8 @@ class _SignUpScrennState extends State<SignUpScreen> {
                       ElevatedButton(
                           onPressed: () {
                             signUp(email, password);
-                            print("user " + email + " " + fullname);
-                            print("user " + selectedValue!);
+                            // print("user " + email + " " + fullname);
+                            // print("user " + selectedValue!);
                           },
                           child: Text('SingUp'),
                           style: ButtonStyle(
@@ -291,9 +300,14 @@ class _SignUpScrennState extends State<SignUpScreen> {
                           SizedBox(
                             width: 5,
                           ),
-                          Text("Login",
-                              style:
-                                  TextStyle(fontSize: 13, color: Colors.amber)),
+                          GestureDetector(
+                            onTap: () {
+                              Get.to(LoginScreen());
+                            },
+                            child: Text("Login",
+                                style: TextStyle(
+                                    fontSize: 13, color: Colors.amber)),
+                          ),
                         ],
                       ),
                     ],
@@ -334,15 +348,22 @@ class _SignUpScrennState extends State<SignUpScreen> {
     userModel.user_id = users.uid;
     userModel.fullname = fullname;
     userModel.password = password;
+    userModel.user_image = 'file?.path';
     userModel.user_role = selectedValue;
 
+    print(email);
+    print(email);
+    print(fullname);
+    print(password);
+    print(selectedValue);
+    print(_image);
     await firebaseFirestore
         .collection("users")
         .doc(users.uid)
         .set(userModel.toMap());
     Navigator.push(
       context as BuildContext,
-      MaterialPageRoute(builder: (context) => const HomeScreen()),
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
     );
     Fluttertoast.showToast(msg: "ACCOUNT CREATED");
   }

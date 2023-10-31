@@ -1,3 +1,9 @@
 {
-    "cmake.sourceDirectory": "D:/application/FlutterProject12/fyp_project/linux"
+    "cmake.sourceDirectory": "D:/application/FlutterProject12/fyp_project/linux",
+    "emulator.androidColdBoot": true,
+    "cSpell.words": [
+        "cupertino",
+        "ecommerce",
+        "Firestore"
+    ]
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_project/screens/Venders%20Screen/venders_Signup.dart';
 import 'package:fyp_project/screens/login_screen.dart';
+import 'package:fyp_project/screens/select_screen.dart';
+import 'package:fyp_project/screens/signup_screen.dart';
 import 'package:get/get.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -56,7 +59,7 @@ class WelcomeScreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              Get.to(LoginScreen());
+              Get.to(SelectScreen());
             },
             child: Container(
               //alignment: Alignment.topLeft,

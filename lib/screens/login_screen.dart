@@ -1,4 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fyp_project/screens/Venders%20Screen/v_homeScreen.dart';
+import 'package:fyp_project/screens/Venders%20Screen/venders_Signup.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
+import '../Client/Client_home_screen.dart';
+import '../Vendor/Vendor_home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -7,7 +15,12 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
+final _auth = FirebaseAuth.instance;
+
 class _LoginScreenState extends State<LoginScreen> {
+  late String email;
+  late String password;
+  bool showSpinner = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +65,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         labelStyle: TextStyle(color: Colors.black),
                       ),
                       onChanged: (value) {
-                        setState(() {});
+                        setState(() {
+                          email = value;
+                        });
                       },
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -83,7 +98,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         labelStyle: TextStyle(color: Colors.black),
                       ),
                       onChanged: (value) {
-                        setState(() {});
+                        setState(() {
+                          password = value;
+                        });
                       },
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -118,7 +135,36 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
 
                     ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          setState(() {
+                            showSpinner = true;
+                          });
+                          print("Logn");
+                          try {
+                            final user = await _auth.signInWithEmailAndPassword(
+                                email: email, password: password);
+                            print("Logn");
+                            Get.to(VendorHomeScreen());
+                          } catch (e) {
+                            print(e);
+                          }
+                          AlertDialog(
+                            title: Text("Login Successful"),
+                            content: Text("You have successfully logged in!"),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Get.to(
+                                      VendorHomeScreen()); // Close the dialog
+                                },
+                                child: Text("OK"),
+                              ),
+                            ],
+                          );
+                          setState(() {
+                            showSpinner = false;
+                          });
+                        },
                         child: Text('Login'),
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
@@ -166,9 +212,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(
                           width: 5,
                         ),
-                        Text("Sign up",
-                            style:
-                                TextStyle(fontSize: 13, color: Colors.amber)),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(VenderSignUp());
+                          },
+                          child: Text("Sign up",
+                              style:
+                                  TextStyle(fontSize: 13, color: Colors.amber)),
+                        )
                       ],
                     ),
                   ],
