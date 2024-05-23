@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:csc_picker/csc_picker.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 
 class FormProductionCapacity extends StatefulWidget {
@@ -13,6 +12,7 @@ class _FormProductionCapacityState extends State<FormProductionCapacity> {
   final _formKey = GlobalKey<FormState>();
   late SingleValueDropDownController _cnt;
 
+  @override
   void initState() {
     _cnt = SingleValueDropDownController();
     super.initState();
@@ -38,7 +38,7 @@ class _FormProductionCapacityState extends State<FormProductionCapacity> {
                   Center(
                     child: SingleChildScrollView(
                       child: Container(
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 20),
+                        padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
                         child: Column(
                           //mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -111,6 +111,7 @@ class _FormProductionCapacityState extends State<FormProductionCapacity> {
                                                   if (value!.isEmpty) {
                                                     return ("Please Enter Your Email!");
                                                   }
+                                                  return null;
                                                   // reg expression
                                                 },
                                               ),
@@ -162,6 +163,7 @@ class _FormProductionCapacityState extends State<FormProductionCapacity> {
                                                   if (value!.isEmpty) {
                                                     return ("Please Enter Your Email!");
                                                   }
+                                                  return null;
                                                   // reg expression
                                                 },
                                               ),
@@ -220,6 +222,7 @@ class _FormProductionCapacityState extends State<FormProductionCapacity> {
                                                   if (value!.isEmpty) {
                                                     return ("Please Enter Your Email!");
                                                   }
+                                                  return null;
                                                   // reg expression
                                                 },
                                               ),
@@ -271,6 +274,7 @@ class _FormProductionCapacityState extends State<FormProductionCapacity> {
                                                   if (value!.isEmpty) {
                                                     return ("Please Enter Your Email!");
                                                   }
+                                                  return null;
                                                   // reg expression
                                                 },
                                               ),
@@ -329,6 +333,7 @@ class _FormProductionCapacityState extends State<FormProductionCapacity> {
                                                   if (value!.isEmpty) {
                                                     return ("Please Enter Your Email!");
                                                   }
+                                                  return null;
                                                   // reg expression
                                                 },
                                               ),
@@ -380,6 +385,7 @@ class _FormProductionCapacityState extends State<FormProductionCapacity> {
                                                   if (value!.isEmpty) {
                                                     return ("Please Enter Your Email!");
                                                   }
+                                                  return null;
                                                   // reg expression
                                                 },
                                               ),
@@ -458,6 +464,7 @@ class _FormProductionCapacityState extends State<FormProductionCapacity> {
                                                   if (value!.isEmpty) {
                                                     return ("Please Enter Your Email!");
                                                   }
+                                                  return null;
                                                   // reg expression
                                                 },
                                               ),
@@ -510,6 +517,7 @@ class _FormProductionCapacityState extends State<FormProductionCapacity> {
                                                   if (value!.isEmpty) {
                                                     return ("Please Enter Your Email!");
                                                   }
+                                                  return null;
                                                   // reg expression
                                                 },
                                               ),
@@ -568,6 +576,7 @@ class _FormProductionCapacityState extends State<FormProductionCapacity> {
                                                   if (value!.isEmpty) {
                                                     return ("Please Enter Your Email!");
                                                   }
+                                                  return null;
                                                   // reg expression
                                                 },
                                               ),
@@ -620,6 +629,7 @@ class _FormProductionCapacityState extends State<FormProductionCapacity> {
                                                   if (value!.isEmpty) {
                                                     return ("Please Enter Your Email!");
                                                   }
+                                                  return null;
                                                   // reg expression
                                                 },
                                               ),
@@ -679,6 +689,7 @@ class _FormProductionCapacityState extends State<FormProductionCapacity> {
                                                   if (value!.isEmpty) {
                                                     return ("Please Enter Your Email!");
                                                   }
+                                                  return null;
                                                   // reg expression
                                                 },
                                               )
@@ -700,11 +711,11 @@ class _FormProductionCapacityState extends State<FormProductionCapacity> {
 
                             ElevatedButton(
                                 onPressed: () {},
-                                child: Text('Click'),
                                 style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.all(
-                                        Color.fromARGB(255, 48, 93, 242)))),
-                            SizedBox(
+                                        const Color.fromARGB(255, 48, 93, 242))),
+                                child: const Text('Click')),
+                            const SizedBox(
                               height: 8,
                             ),
                           ],

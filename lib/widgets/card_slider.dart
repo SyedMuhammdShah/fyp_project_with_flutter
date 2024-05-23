@@ -15,10 +15,10 @@ class _CardSliderWidgetState extends State<CardSliderWidget>
   PageController mysecondcontroller =
       PageController(initialPage: 3, viewportFraction: 0.7);
   mysecondfunction() {
-    Timer.periodic(Duration(seconds: 2), (timer) {
+    Timer.periodic(const Duration(seconds: 2), (timer) {
       secondecurrentindex++;
       mysecondcontroller.animateToPage(secondecurrentindex,
-          duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+          duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
     });
   }
 
@@ -82,5 +82,5 @@ final colors = [
   Colors.greenAccent.shade100,
   Colors.amberAccent.shade100,
   Colors.blue.shade100,
-  Color.fromARGB(255, 223, 169, 9),
+  const Color.fromARGB(255, 223, 169, 9),
 ];

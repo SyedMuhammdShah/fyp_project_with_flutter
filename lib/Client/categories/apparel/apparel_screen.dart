@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/Client/categories/apparel/components/apparel_companies.dart';
-import 'package:fyp_project/Client/ui_view/custom_tab_bar_view.dart';
+import 'package:fyp_project/Client/categories/apparel/components/display_store.dart';
 
 class ApparelScreen extends StatefulWidget {
   const ApparelScreen({super.key});
@@ -47,35 +47,37 @@ class _ApparelScreenState extends State<ApparelScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: 15,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            child: Row(
-              children: [
-                Text(
-                  "Apparel",
-                  style: TextStyle(color: Colors.grey, fontSize: 25),
-                  textAlign: TextAlign.center,
-                ),
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 15,
             ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          const Divider(
-            height: 20,
-            thickness: 1,
-            indent: 15,
-            endIndent: 15,
-            color: Color.fromARGB(170, 0, 0, 0),
-          ),
-          ApparelCompanies()
-        ],
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: const Row(
+                children: [
+                  Text(
+                    "Apparel Vendors",
+                    style: TextStyle(color: Colors.grey, fontSize: 25),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Divider(
+              height: 20,
+              thickness: 1,
+              indent: 15,
+              endIndent: 15,
+              color: Color.fromARGB(170, 0, 0, 0),
+            ),
+            WidgetVendorsStores(),
+          ],
+        ),
       ),
     );
   }

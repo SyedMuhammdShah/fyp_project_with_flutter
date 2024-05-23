@@ -11,7 +11,7 @@ class BottomNav extends StatefulWidget {
 class _BottomNavState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
-    int _selectedIndex = 0;
+    int selectedIndex = 0;
     return MaterialApp(
       theme: Theme.of(context).copyWith(
         colorScheme: ColorScheme.fromSwatch(
@@ -21,30 +21,30 @@ class _BottomNavState extends State<BottomNav> {
       home: Scaffold(
         body: Center(
           child: Text(
-            'Selected Tab: $_selectedIndex',
-            style: TextStyle(
+            'Selected Tab: $selectedIndex',
+            style: const TextStyle(
               fontSize: 20,
             ),
           ),
         ),
         bottomNavigationBar: MoltenBottomNavigationBar(
-          selectedIndex: _selectedIndex,
+          selectedIndex: selectedIndex,
           domeHeight: 25,
           onTabChange: (clickedIndex) {
             setState(() {
-              _selectedIndex = clickedIndex;
+              selectedIndex = clickedIndex;
             });
           },
           tabs: [
             MoltenTab(
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
             ),
             MoltenTab(
-              icon: Icon(Icons.home),
-              title: Text('Home'),
+              icon: const Icon(Icons.home),
+              title: const Text('Home'),
             ),
             MoltenTab(
-              icon: Icon(Icons.person),
+              icon: const Icon(Icons.person),
             ),
           ],
         ),

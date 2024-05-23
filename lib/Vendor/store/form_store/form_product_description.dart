@@ -1,13 +1,13 @@
-import 'dart:typed_data';
-
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
-import 'package:advance_image_picker/advance_image_picker.dart';
-import 'package:csc_picker/csc_picker.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fyp_project/Models/VendorModels/model_form_product_description.dart';
+import 'package:fyp_project/Models/saveDataFireStroe.dart';
+import 'package:fyp_project/Vendor/store/view_store/vendor_view_store.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class FormProductDescription extends StatefulWidget {
   const FormProductDescription({super.key});
@@ -17,9 +17,33 @@ class FormProductDescription extends StatefulWidget {
 }
 
 class _FormProductDescription extends State<FormProductDescription> {
+  bool _loading = false;
   final _formKey = GlobalKey<FormState>();
   late SingleValueDropDownController _cnt;
 
+  // Fields Variables
+  String printingMethods = "";
+  String brandName = "";
+  String productFeature = "";
+  String modelNumber = "";
+  String collar = "";
+  String fabricWeight = "";
+  String avalibleQuantity = "";
+  String material = "";
+  String technics = "";
+  String sleeveStyle = "";
+  String gender = "";
+  String design = "";
+  String patternType = "";
+  String style = "";
+  String fabricType = "";
+  String weavingMethod = "";
+  String sampleLead = "";
+  String countryValue = "";
+  String stateValue = "";
+  String cityValue = "";
+  String address = "";
+  @override
   void initState() {
     _cnt = SingleValueDropDownController();
     super.initState();
@@ -45,7 +69,8 @@ class _FormProductDescription extends State<FormProductDescription> {
                   Center(
                     child: SingleChildScrollView(
                       child: Container(
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 20),
+                        padding:
+                            const EdgeInsets.only(left: 10, right: 10, top: 20),
                         child: Column(
                           //mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -79,13 +104,14 @@ class _FormProductDescription extends State<FormProductDescription> {
                               ),
                               onChanged: (value) {
                                 setState(() {
-                                  //email = value;
+                                  printingMethods = value;
                                 });
                               },
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return ("Please Enter Your Email!");
+                                  return ("Please Enter Your printingMethods!");
                                 }
+                                return null;
                                 // reg expression
                               },
                             ),
@@ -98,15 +124,34 @@ class _FormProductDescription extends State<FormProductDescription> {
                             ),
                             Container(
                               child: CSCPicker(
-                                layout: Layout.horizontal,
-                                //flagState: CountryFlag.DISABLE,
-                                onCountryChanged: (country) {},
-                                onStateChanged: (state) {},
-                                /* countryDropdownLabel: "*Country",
-          stateDropdownLabel: "*State",
-          cityDropdownLabel: "*City",*/
-                                //dropdownDialogRadius: 30,
-                                //searchBarRadius: 30,
+                                onCountryChanged: (value) {
+                                  setState(() {
+                                    countryValue = value;
+                                  });
+                                },
+                                onStateChanged: (value) {
+                                  setState(() {
+                                    // Check if value is not null before using it
+                                    if (value != null) {
+                                      stateValue = value;
+                                    }
+                                  });
+                                },
+                                onCityChanged: (value) {
+                                  setState(() {
+                                    // Check if value is not null before using it
+                                    if (value != null) {
+                                      cityValue = value;
+                                    }
+                                  });
+
+                                  print("Country Name " +
+                                      countryValue +
+                                      "State " +
+                                      stateValue +
+                                      "City " +
+                                      cityValue);
+                                },
                               ),
                             ),
                             const SizedBox(
@@ -132,13 +177,14 @@ class _FormProductDescription extends State<FormProductDescription> {
                               ),
                               onChanged: (value) {
                                 setState(() {
-                                  //email = value;
+                                  brandName = value;
                                 });
                               },
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return ("Please Enter Your Email!");
+                                  return ("Please Enter Your brandName!");
                                 }
+                                return null;
                                 // reg expression
                               },
                             ),
@@ -166,13 +212,14 @@ class _FormProductDescription extends State<FormProductDescription> {
                               ),
                               onChanged: (value) {
                                 setState(() {
-                                  //email = value;
+                                  productFeature = value;
                                 });
                               },
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return ("Please Enter Your Email!");
+                                  return ("Please Enter Your productFeature!");
                                 }
+                                return null;
                                 // reg expression
                               },
                             ),
@@ -213,13 +260,14 @@ class _FormProductDescription extends State<FormProductDescription> {
                                           ),
                                           onChanged: (value) {
                                             setState(() {
-                                              //  firstName = value;
+                                              modelNumber = value;
                                             });
                                           },
                                           validator: (value) {
                                             if (value!.isEmpty) {
-                                              return ("Please Enter Your Email!");
+                                              return ("Please Enter Your modelNumber!");
                                             }
+                                            return null;
                                             // reg expression
                                           },
                                         ),
@@ -259,13 +307,14 @@ class _FormProductDescription extends State<FormProductDescription> {
                                           ),
                                           onChanged: (value) {
                                             setState(() {
-                                              // secondName = value;
+                                              collar = value;
                                             });
                                           },
                                           validator: (value) {
                                             if (value!.isEmpty) {
-                                              return ("Please Enter Your Email!");
+                                              return ("Please Enter Your collar!");
                                             }
+                                            return null;
                                             // reg expression
                                           },
                                         ),
@@ -312,13 +361,14 @@ class _FormProductDescription extends State<FormProductDescription> {
                                           ),
                                           onChanged: (value) {
                                             setState(() {
-                                              //  firstName = value;
+                                              fabricWeight = value;
                                             });
                                           },
                                           validator: (value) {
                                             if (value!.isEmpty) {
-                                              return ("Please Enter Your Email!");
+                                              return ("Please Enter Your fabricWeight!");
                                             }
+                                            return null;
                                             // reg expression
                                           },
                                         ),
@@ -358,13 +408,14 @@ class _FormProductDescription extends State<FormProductDescription> {
                                           ),
                                           onChanged: (value) {
                                             setState(() {
-                                              // secondName = value;
+                                              avalibleQuantity = value;
                                             });
                                           },
                                           validator: (value) {
                                             if (value!.isEmpty) {
                                               return ("Please Enter Your Email!");
                                             }
+                                            return null;
                                             // reg expression
                                           },
                                         ),
@@ -411,13 +462,14 @@ class _FormProductDescription extends State<FormProductDescription> {
                                           ),
                                           onChanged: (value) {
                                             setState(() {
-                                              //  firstName = value;
+                                              material = value;
                                             });
                                           },
                                           validator: (value) {
                                             if (value!.isEmpty) {
                                               return ("Please Enter Your Email!");
                                             }
+                                            return null;
                                             // reg expression
                                           },
                                         ),
@@ -457,13 +509,14 @@ class _FormProductDescription extends State<FormProductDescription> {
                                           ),
                                           onChanged: (value) {
                                             setState(() {
-                                              // secondName = value;
+                                              technics = value;
                                             });
                                           },
                                           validator: (value) {
                                             if (value!.isEmpty) {
                                               return ("Please Enter Your Email!");
                                             }
+                                            return null;
                                             // reg expression
                                           },
                                         ),
@@ -513,13 +566,14 @@ class _FormProductDescription extends State<FormProductDescription> {
                                           ),
                                           onChanged: (value) {
                                             setState(() {
-                                              //  firstName = value;
+                                              sleeveStyle = value;
                                             });
                                           },
                                           validator: (value) {
                                             if (value!.isEmpty) {
                                               return ("Please Enter Your Email!");
                                             }
+                                            return null;
                                             // reg expression
                                           },
                                         ),
@@ -563,7 +617,17 @@ class _FormProductDescription extends State<FormProductDescription> {
                                               value: "Female",
                                             ),
                                           ],
-                                          onChanged: (val) {},
+                                          onChanged: (value) {
+                                            DropDownValueModel selectedValue =
+                                                value as DropDownValueModel;
+
+                                            // Update the selected value
+                                            gender = selectedValue.value;
+
+                                            // Print the selected value
+                                            print(
+                                                "Selected Vendor Type: $gender");
+                                          },
                                         ),
                                       ],
                                     ),
@@ -611,13 +675,14 @@ class _FormProductDescription extends State<FormProductDescription> {
                                           ),
                                           onChanged: (value) {
                                             setState(() {
-                                              //  firstName = value;
+                                              design = value;
                                             });
                                           },
                                           validator: (value) {
                                             if (value!.isEmpty) {
                                               return ("Please Enter Your Email!");
                                             }
+                                            return null;
                                             // reg expression
                                           },
                                         ),
@@ -657,13 +722,14 @@ class _FormProductDescription extends State<FormProductDescription> {
                                           ),
                                           onChanged: (value) {
                                             setState(() {
-                                              // secondName = value;
+                                              patternType = value;
                                             });
                                           },
                                           validator: (value) {
                                             if (value!.isEmpty) {
-                                              return ("Please Enter Your Email!");
+                                              return ("Please Enter Your patternType!");
                                             }
+                                            return null;
                                             // reg expression
                                           },
                                         ),
@@ -713,13 +779,14 @@ class _FormProductDescription extends State<FormProductDescription> {
                                           ),
                                           onChanged: (value) {
                                             setState(() {
-                                              //  firstName = value;
+                                              style = value;
                                             });
                                           },
                                           validator: (value) {
                                             if (value!.isEmpty) {
                                               return ("Please Enter Your Email!");
                                             }
+                                            return null;
                                             // reg expression
                                           },
                                         ),
@@ -759,13 +826,14 @@ class _FormProductDescription extends State<FormProductDescription> {
                                           ),
                                           onChanged: (value) {
                                             setState(() {
-                                              // secondName = value;
+                                              fabricType = value;
                                             });
                                           },
                                           validator: (value) {
                                             if (value!.isEmpty) {
                                               return ("Please Enter Your Email!");
                                             }
+                                            return null;
                                             // reg expression
                                           },
                                         ),
@@ -815,13 +883,14 @@ class _FormProductDescription extends State<FormProductDescription> {
                                           ),
                                           onChanged: (value) {
                                             setState(() {
-                                              //  firstName = value;
+                                              weavingMethod = value;
                                             });
                                           },
                                           validator: (value) {
                                             if (value!.isEmpty) {
                                               return ("Please Enter Your Email!");
                                             }
+                                            return null;
                                             // reg expression
                                           },
                                         ),
@@ -867,7 +936,9 @@ class _FormProductDescription extends State<FormProductDescription> {
                                               value: "Not Support",
                                             ),
                                           ],
-                                          onChanged: (val) {},
+                                          onChanged: (val) {
+                                            sampleLead = val;
+                                          },
                                         ),
                                       ],
                                     ),
@@ -879,12 +950,18 @@ class _FormProductDescription extends State<FormProductDescription> {
                               height: 10,
                             ),
                             ElevatedButton(
-                                onPressed: () {},
-                                child: Text('Click'),
+                                onPressed: () {
+                                  print("form Product" +
+                                      printingMethods +
+                                      countryValue);
+                                  saveProDes();
+                                },
                                 style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.all(
-                                        Color.fromARGB(255, 48, 93, 242)))),
-                            SizedBox(
+                                        const Color.fromARGB(
+                                            255, 48, 93, 242))),
+                                child: const Text('Click')),
+                            const SizedBox(
                               height: 8,
                             ),
                           ],
@@ -897,5 +974,42 @@ class _FormProductDescription extends State<FormProductDescription> {
             ),
           ),
         ));
+  }
+
+  void saveProDes() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+    String userId = user!.uid;
+    print("user ID $userId");
+    String proDec = await ModelProductDescription().SaveData(
+        printingMethods: printingMethods,
+        brandName: brandName,
+        productFeature: productFeature,
+        modelNumber: modelNumber,
+        collar: collar,
+        fabricWeight: fabricWeight,
+        avalibleQuantity: avalibleQuantity,
+        material: material,
+        technics: technics,
+        sleeveStyle: sleeveStyle,
+        gender: gender,
+        design: design,
+        patternType: patternType,
+        style: style,
+        fabricType: fabricType,
+        weavingMethod: weavingMethod,
+        sampleLead: sampleLead,
+        countryValue: countryValue,
+        stateValue: stateValue,
+        cityValue: cityValue,
+        address: address,
+        v_user_id: userId);
+    print("user ID $userId");
+
+    setState(() {
+      _loading = true;
+    });
+    Fluttertoast.showToast(msg: "Product description Save");
+    Get.to(VendorViewStore());
   }
 }

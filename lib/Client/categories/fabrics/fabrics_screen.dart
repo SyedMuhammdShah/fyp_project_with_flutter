@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:fyp_project/Client/ui_view/custom_tab_bar_view.dart';
+import 'package:fyp_project/Client/categories/apparel/components/apparel_companies.dart';
+import 'package:fyp_project/Client/categories/apparel/components/display_store.dart';
 
 class FabricsScreen extends StatefulWidget {
   const FabricsScreen({super.key});
 
   @override
-  State<FabricsScreen> createState() => _ApparelScreenState();
+  State<FabricsScreen> createState() => _FabricsScreenState();
 }
 
-class _ApparelScreenState extends State<FabricsScreen> {
+class _FabricsScreenState extends State<FabricsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,8 +47,37 @@ class _ApparelScreenState extends State<FabricsScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [Text(" Hello")],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 15,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: const Row(
+                children: [
+                  Text(
+                    "Apparel Vendors",
+                    style: TextStyle(color: Colors.grey, fontSize: 25),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Divider(
+              height: 20,
+              thickness: 1,
+              indent: 15,
+              endIndent: 15,
+              color: Color.fromARGB(170, 0, 0, 0),
+            ),
+            WidgetVendorsStores(),
+          ],
+        ),
       ),
     );
   }

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../../main.dart';
 import '../fitness_app_theme.dart';
@@ -51,7 +49,7 @@ class _MealsListViewState extends State<MealsListView>
           child: Transform(
             transform: Matrix4.translationValues(
                 0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
-            child: Container(
+            child: SizedBox(
               height: 216,
               width: double.infinity,
               child: ListView.builder(
@@ -105,7 +103,7 @@ class MealsView extends StatelessWidget {
             transform: Matrix4.translationValues(
                 100 * (1.0 - animation!.value), 0.0, 0.0),
             child: SizedBox(
-              width: 130,
+              width: 150,
               child: Stack(
                 children: <Widget>[
                   Padding(
@@ -147,7 +145,7 @@ class MealsView extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              top: 54, left: 16, right: 16, bottom: 8),
+                              top: 54, left: 14, right: 16, bottom: 8),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,10 +153,10 @@ class MealsView extends StatelessWidget {
                               Text(
                                 mealsListData!.titleTxt,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontFamily: FitnessAppTheme.fontName,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+                                  fontSize: 20,
                                   letterSpacing: 0.2,
                                   color: FitnessAppTheme.white,
                                 ),
@@ -174,7 +172,7 @@ class MealsView extends StatelessWidget {
                                     children: <Widget>[
                                       Text(
                                         mealsListData!.meals!.join('\n'),
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontFamily: FitnessAppTheme.fontName,
                                           fontWeight: FontWeight.w500,
                                           fontSize: 10,
@@ -196,7 +194,7 @@ class MealsView extends StatelessWidget {
                                         Text(
                                           mealsListData!.kacl.toString(),
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontFamily:
                                                 FitnessAppTheme.fontName,
                                             fontWeight: FontWeight.w500,
@@ -205,8 +203,8 @@ class MealsView extends StatelessWidget {
                                             color: FitnessAppTheme.white,
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
+                                        const Padding(
+                                          padding: EdgeInsets.only(
                                               left: 4, bottom: 3),
                                           child: Text(
                                             'comp',
@@ -230,7 +228,7 @@ class MealsView extends StatelessWidget {
                                           BoxShadow(
                                               color: FitnessAppTheme.nearlyBlack
                                                   .withOpacity(0.4),
-                                              offset: Offset(8.0, 8.0),
+                                              offset: const Offset(8.0, 8.0),
                                               blurRadius: 8.0),
                                         ],
                                       ),

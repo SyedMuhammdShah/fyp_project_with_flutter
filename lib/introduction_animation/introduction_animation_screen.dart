@@ -1,7 +1,5 @@
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
-import '../screens/Venders Screen/venders_Signup.dart';
 import '../screens/select_screen.dart';
 import 'components/care_view.dart';
 import 'components/center_next_button.dart';
@@ -27,7 +25,7 @@ class _IntroductionAnimationScreenState
   @override
   void initState() {
     _animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 8));
+        AnimationController(vsync: this, duration: const Duration(seconds: 8));
     _animationController?.animateTo(0.0);
     super.initState();
   }
@@ -42,7 +40,7 @@ class _IntroductionAnimationScreenState
   Widget build(BuildContext context) {
     print(_animationController?.value);
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 21, 220, 184),
+      backgroundColor: const Color.fromARGB(255, 21, 220, 184),
       body: ClipRect(
         child: Stack(
           children: [
@@ -78,7 +76,7 @@ class _IntroductionAnimationScreenState
 
   void _onSkipClick() {
     _animationController?.animateTo(0.8,
-        duration: Duration(milliseconds: 1200));
+        duration: const Duration(milliseconds: 1200));
   }
 
   void _onBackClick() {
@@ -128,7 +126,7 @@ class _IntroductionAnimationScreenState
       _animationController?.animateTo(0.8);
     } else if (_animationController!.value > 0.6 &&
         _animationController!.value <= 0.8) {
-      Get.to(SelectScreen());
+      Get.to(const SelectScreen());
     }
   }
 }

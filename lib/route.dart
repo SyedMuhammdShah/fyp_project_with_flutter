@@ -12,8 +12,8 @@ class MainRoutes {
 
   // Clients Routes
   static String ClientHomeScreen = 'Client/Client_home_screen';
-
-  static String c_homeScreen = 'screens/ClientScreen/c_homeScreen';
+  static String Client_signUp = "screens/ClientScreen/ClientSignUp";
+  static String Client_login = "screens/ClientScreen/ClientLogin";
 
   // Venders Routes
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/rendering/object.dart';
 
 class CategoriesGrid extends StatefulWidget {
   const CategoriesGrid({super.key});
@@ -19,22 +18,22 @@ class _CategoriesGridState extends State<CategoriesGrid> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 236, 237,
+                  color: const Color.fromARGB(255, 236, 237,
                       238), // Change this to your desired background color
                   borderRadius: BorderRadius.circular(
                       10.0), // Optional: Add rounded corners
                   boxShadow: [
                     BoxShadow(
-                      color: Color.fromARGB(96, 158, 158, 158)
+                      color: const Color.fromARGB(96, 158, 158, 158)
                           .withOpacity(0.5), // Shadow color
                       spreadRadius: 2, // Spread radius
                       blurRadius: 5, // Blur radius
-                      offset: Offset(0, 1), // Offset in the x and y directions
+                      offset: const Offset(0, 1), // Offset in the x and y directions
                     ),
                   ],
                 ),
-                margin: EdgeInsets.all(5),
-                padding: EdgeInsets.only(bottom: 5),
+                margin: const EdgeInsets.all(5),
+                padding: const EdgeInsets.only(bottom: 5),
                 child: Column(
                   children: [
                     Image.asset(
@@ -43,10 +42,10 @@ class _CategoriesGridState extends State<CategoriesGrid> {
                       width: 150,
                       fit: BoxFit.fill,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 4,
                     ),
-                    Text(
+                    const Text(
                       "Apparels",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     )
@@ -55,7 +54,7 @@ class _CategoriesGridState extends State<CategoriesGrid> {
               ),
               Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 236, 237,
+                  color: const Color.fromARGB(255, 236, 237,
                       238), // Change this to your desired background color
                   borderRadius: BorderRadius.circular(
                       10.0), // Optional: Add rounded corners
@@ -64,12 +63,12 @@ class _CategoriesGridState extends State<CategoriesGrid> {
                       color: Colors.grey.withOpacity(0.5), // Shadow color
                       spreadRadius: 2, // Spread radius
                       blurRadius: 5, // Blur radius
-                      offset: Offset(0, 3), // Offset in the x and y directions
+                      offset: const Offset(0, 3), // Offset in the x and y directions
                     ),
                   ],
                 ),
-                margin: EdgeInsets.all(5),
-                padding: EdgeInsets.only(bottom: 5),
+                margin: const EdgeInsets.all(5),
+                padding: const EdgeInsets.only(bottom: 5),
                 child: Column(
                   children: [
                     Image.asset(
@@ -78,10 +77,10 @@ class _CategoriesGridState extends State<CategoriesGrid> {
                       width: 150,
                       fit: BoxFit.fill,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 4,
                     ),
-                    Text(
+                    const Text(
                       "Yarns",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     )
@@ -90,13 +89,13 @@ class _CategoriesGridState extends State<CategoriesGrid> {
               ),
             ],
           ),
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width,
             child: Row(
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 236, 237,
+                    color: const Color.fromARGB(255, 236, 237,
                         238), // Change this to your desired background color
                     borderRadius: BorderRadius.circular(
                         10.0), // Optional: Add rounded corners
@@ -106,12 +105,12 @@ class _CategoriesGridState extends State<CategoriesGrid> {
                         spreadRadius: 2, // Spread radius
                         blurRadius: 5, // Blur radius
                         offset:
-                            Offset(0, 3), // Offset in the x and y directions
+                            const Offset(0, 3), // Offset in the x and y directions
                       ),
                     ],
                   ),
-                  margin: EdgeInsets.all(5),
-                  padding: EdgeInsets.only(bottom: 5),
+                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.only(bottom: 5),
                   child: Column(
                     children: [
                       Image.asset(
@@ -120,10 +119,10 @@ class _CategoriesGridState extends State<CategoriesGrid> {
                         width: 150,
                         fit: BoxFit.fill,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 4,
                       ),
-                      Text(
+                      const Text(
                         "Fabrics",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       )
@@ -132,7 +131,7 @@ class _CategoriesGridState extends State<CategoriesGrid> {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 236, 237,
+                    color: const Color.fromARGB(255, 236, 237,
                         238), // Change this to your desired background color
                     borderRadius: BorderRadius.circular(
                         10.0), // Optional: Add rounded corners
@@ -142,12 +141,12 @@ class _CategoriesGridState extends State<CategoriesGrid> {
                         spreadRadius: 2, // Spread radius
                         blurRadius: 5, // Blur radius
                         offset:
-                            Offset(0, 3), // Offset in the x and y directions
+                            const Offset(0, 3), // Offset in the x and y directions
                       ),
                     ],
                   ),
-                  margin: EdgeInsets.all(5),
-                  padding: EdgeInsets.only(bottom: 5),
+                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.only(bottom: 5),
                   child: Column(
                     children: [
                       Image.asset(
@@ -156,10 +155,10 @@ class _CategoriesGridState extends State<CategoriesGrid> {
                         width: 150,
                         fit: BoxFit.fill,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 4,
                       ),
-                      Text(
+                      const Text(
                         "trims",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       )
@@ -169,12 +168,12 @@ class _CategoriesGridState extends State<CategoriesGrid> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Container(
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 236, 237,
+              color: const Color.fromARGB(255, 236, 237,
                   238), // Change this to your desired background color
               borderRadius:
                   BorderRadius.circular(10.0), // Optional: Add rounded corners
@@ -183,11 +182,11 @@ class _CategoriesGridState extends State<CategoriesGrid> {
                   color: Colors.grey.withOpacity(0.5), // Shadow color
                   spreadRadius: 2, // Spread radius
                   blurRadius: 5, // Blur radius
-                  offset: Offset(0, 3), // Offset in the x and y directions
+                  offset: const Offset(0, 3), // Offset in the x and y directions
                 ),
               ],
             ),
-            margin: EdgeInsets.all(5),
+            margin: const EdgeInsets.all(5),
             child: Row(
               children: [
                 Image.asset(
@@ -196,10 +195,10 @@ class _CategoriesGridState extends State<CategoriesGrid> {
                   width: 200,
                   fit: BoxFit.fill,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
-                Text(
+                const Text(
                   "Get Your \nNew Deals\nWith Us!",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 )

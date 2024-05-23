@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fyp_project/screens/home_screen.dart';
-import 'package:fyp_project/screens/login_screen.dart';
-import 'package:fyp_project/screens/welcome_screen.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../introduction_animation/introduction_animation_screen.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -21,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 10),
+      duration: const Duration(seconds: 10),
     );
 
     _animationController.forward();
@@ -30,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen>
       if (status == AnimationStatus.completed) {
         // Animation completed, navigate to the next screen
         // Use Navigator.pushReplacement to avoid coming back to the splash screen
-        Get.to(IntroductionAnimationScreen()); // Replace with your route
+        Get.to(const IntroductionAnimationScreen()); // Replace with your route
       }
     });
   }
@@ -45,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Color.fromARGB(255, 21, 220, 184),
+        color: const Color.fromARGB(255, 21, 220, 184),
         child: Center(
           child: FadeTransition(
             opacity: _animationController,
@@ -56,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen>
                   'assets/images/svWhite_logo.png',
                   width: 250,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Image.asset(
                   'assets/images/loading.gif',
                   width: 100,

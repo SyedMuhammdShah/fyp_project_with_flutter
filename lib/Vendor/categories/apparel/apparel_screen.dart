@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/Client/categories/apparel/components/apparel_companies.dart';
-import 'package:fyp_project/Client/ui_view/custom_tab_bar_view.dart';
 
 class ApparelScreen extends StatefulWidget {
   const ApparelScreen({super.key});
@@ -49,12 +48,12 @@ class _ApparelScreenState extends State<ApparelScreen> {
       ),
       body: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width,
-            child: Row(
+            child: const Row(
               children: [
                 Text(
                   "Apparel",
@@ -64,7 +63,7 @@ class _ApparelScreenState extends State<ApparelScreen> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           const Divider(
@@ -74,7 +73,7 @@ class _ApparelScreenState extends State<ApparelScreen> {
             endIndent: 15,
             color: Color.fromARGB(170, 0, 0, 0),
           ),
-          ApparelCompanies()
+          const ApparelCompanies()
         ],
       ),
     );

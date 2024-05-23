@@ -1,12 +1,17 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:csc_picker/csc_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:csc_picker/csc_picker.dart';
-import 'package:advance_image_picker/advance_image_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fyp_project/Models/VendorModels/model_form_company_overview.dart';
+import 'package:fyp_project/Vendor/Vendor_home_screen.dart';
+import 'package:fyp_project/Vendor/store/create_store_screen.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 import '../../../widgets/pickImage.dart';
 
@@ -18,59 +23,75 @@ class FormCompanyOverview extends StatefulWidget {
 }
 
 class _FormCompanyOverviewState extends State<FormCompanyOverview> {
-  Uint8List? _imageCompanyImage;
-  Uint8List? _imageCertification;
-  Uint8List? _imageProductCertification;
-  Uint8List? _imagePatents;
-  Uint8List? _imageTrademark;
+  bool _loading = false;
+
+  Uint8List? imageCertification;
+  Uint8List? imageProductCertification;
+  Uint8List? imagePatents;
+  Uint8List? imageTrademark;
+
+  String companyName = "";
+  String businessType = "";
+  String mainProducts = "";
+  String totalEmployee = "";
+  String totalAnnualRevenue = "";
+  String yearEstablished = "";
+  String countryValue = "";
+  String stateValue = "";
+  String cityValue = "";
   final _formKey = GlobalKey<FormState>();
-  void selectImage() async {
-    final _firebaseStorage = FirebaseStorage.instance;
 
-    Uint8List img = await pickImage(ImageSource.gallery);
-    setState(() {
-      _imageCompanyImage = img;
-    });
+  final ImagePicker companyImages = ImagePicker();
+  List<XFile>? imagefiles;
 
-    // ImagePicker imagePicker = ImagePicker();
-    // // XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
-    // XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
-    // print("image" + '${file?.path}');
+  CompanyImages() async {
+    try {
+      var pickedfiles = await companyImages.pickMultiImage();
+      //you can use ImageCourse.camera for Camera capture
+      if (pickedfiles != null) {
+        imagefiles = pickedfiles;
+        setState(() {});
+      } else {
+        print("No image is selected.");
+      }
+    } catch (e) {
+      print("error while picking file.");
+    }
   }
 
   void _SelectImageCertification() async {
-    final _firebaseStorage = FirebaseStorage.instance;
+    final firebaseStorage = FirebaseStorage.instance;
 
     Uint8List img = await pickImage(ImageSource.gallery);
     setState(() {
-      _imageCertification = img;
+      imageCertification = img;
     });
   }
 
   void _SelectImageProductCertification() async {
-    final _firebaseStorage = FirebaseStorage.instance;
+    final firebaseStorage = FirebaseStorage.instance;
 
     Uint8List img = await pickImage(ImageSource.gallery);
     setState(() {
-      _imageProductCertification = img;
+      imageProductCertification = img;
     });
   }
 
-  void _SelectImagePatents() async {
-    final _firebaseStorage = FirebaseStorage.instance;
+  void _Select_imagePatents() async {
+    final firebaseStorage = FirebaseStorage.instance;
 
     Uint8List img = await pickImage(ImageSource.gallery);
     setState(() {
-      _imagePatents = img;
+      imagePatents = img;
     });
   }
 
   void _SelectImageTrademark() async {
-    final _firebaseStorage = FirebaseStorage.instance;
+    final firebaseStorage = FirebaseStorage.instance;
 
     Uint8List img = await pickImage(ImageSource.gallery);
     setState(() {
-      _imageTrademark = img;
+      imageTrademark = img;
     });
   }
 
@@ -88,7 +109,8 @@ class _FormCompanyOverviewState extends State<FormCompanyOverview> {
                   Center(
                     child: SingleChildScrollView(
                       child: Container(
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 20),
+                        padding:
+                            const EdgeInsets.only(left: 10, right: 10, top: 20),
                         child: Column(
                           //mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -122,13 +144,14 @@ class _FormCompanyOverviewState extends State<FormCompanyOverview> {
                               ),
                               onChanged: (value) {
                                 setState(() {
-                                  //email = value;
+                                  companyName = value;
                                 });
                               },
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return ("Please Enter Your Email!");
+                                  return ("Please Enter Your companyName!");
                                 }
+                                return null;
                                 // reg expression
                               },
                             ),
@@ -141,15 +164,34 @@ class _FormCompanyOverviewState extends State<FormCompanyOverview> {
                             ),
                             Container(
                               child: CSCPicker(
-                                layout: Layout.horizontal,
-                                //flagState: CountryFlag.DISABLE,
-                                onCountryChanged: (country) {},
-                                onStateChanged: (state) {},
-                                /* countryDropdownLabel: "*Country",
-          stateDropdownLabel: "*State",
-          cityDropdownLabel: "*City",*/
-                                //dropdownDialogRadius: 30,
-                                //searchBarRadius: 30,
+                                onCountryChanged: (value) {
+                                  setState(() {
+                                    countryValue = value;
+                                  });
+                                },
+                                onStateChanged: (value) {
+                                  setState(() {
+                                    // Check if value is not null before using it
+                                    if (value != null) {
+                                      stateValue = value;
+                                    }
+                                  });
+                                },
+                                onCityChanged: (value) {
+                                  setState(() {
+                                    // Check if value is not null before using it
+                                    if (value != null) {
+                                      cityValue = value;
+                                    }
+                                  });
+
+                                  print("Country Name " +
+                                      countryValue +
+                                      "State " +
+                                      stateValue +
+                                      "City " +
+                                      cityValue);
+                                },
                               ),
                             ),
                             const SizedBox(
@@ -189,13 +231,14 @@ class _FormCompanyOverviewState extends State<FormCompanyOverview> {
                                           ),
                                           onChanged: (value) {
                                             setState(() {
-                                              //  firstName = value;
+                                              businessType = value;
                                             });
                                           },
                                           validator: (value) {
                                             if (value!.isEmpty) {
                                               return ("Please Enter Your Email!");
                                             }
+                                            return null;
                                             // reg expression
                                           },
                                         ),
@@ -235,13 +278,14 @@ class _FormCompanyOverviewState extends State<FormCompanyOverview> {
                                           ),
                                           onChanged: (value) {
                                             setState(() {
-                                              // secondName = value;
+                                              mainProducts = value;
                                             });
                                           },
                                           validator: (value) {
                                             if (value!.isEmpty) {
                                               return ("Please Enter Your Email!");
                                             }
+                                            return null;
                                             // reg expression
                                           },
                                         ),
@@ -282,19 +326,20 @@ class _FormCompanyOverviewState extends State<FormCompanyOverview> {
                                                 68, 217, 216, 218),
                                             // border: UnderlineInputBorder(),
 
-                                            hintText: "200 Grams",
+                                            hintText: "200",
                                             labelStyle:
                                                 TextStyle(color: Colors.black),
                                           ),
                                           onChanged: (value) {
                                             setState(() {
-                                              //  firstName = value;
+                                              totalEmployee = value;
                                             });
                                           },
                                           validator: (value) {
                                             if (value!.isEmpty) {
                                               return ("Please Enter Your Email!");
                                             }
+                                            return null;
                                             // reg expression
                                           },
                                         ),
@@ -334,13 +379,14 @@ class _FormCompanyOverviewState extends State<FormCompanyOverview> {
                                           ),
                                           onChanged: (value) {
                                             setState(() {
-                                              // secondName = value;
+                                              totalAnnualRevenue = value;
                                             });
                                           },
                                           validator: (value) {
                                             if (value!.isEmpty) {
                                               return ("Please Enter Your Email!");
                                             }
+                                            return null;
                                             // reg expression
                                           },
                                         ),
@@ -381,65 +427,20 @@ class _FormCompanyOverviewState extends State<FormCompanyOverview> {
                                                 68, 217, 216, 218),
                                             // border: UnderlineInputBorder(),
 
-                                            hintText: "Shirt",
+                                            hintText: "1998",
                                             labelStyle:
                                                 TextStyle(color: Colors.black),
                                           ),
                                           onChanged: (value) {
                                             setState(() {
-                                              //  firstName = value;
+                                              yearEstablished = value;
                                             });
                                           },
                                           validator: (value) {
                                             if (value!.isEmpty) {
                                               return ("Please Enter Your Email!");
                                             }
-                                            // reg expression
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 2),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.stretch,
-                                      children: [
-                                        const Text(
-                                          "Major Clients",
-                                          textAlign: TextAlign.left,
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        TextFormField(
-                                          decoration: const InputDecoration(
-                                            border: InputBorder.none,
-                                            focusedBorder: InputBorder.none,
-                                            enabledBorder: InputBorder.none,
-                                            errorBorder: InputBorder.none,
-                                            disabledBorder: InputBorder.none,
-                                            filled: true, //<-- SEE HERE
-                                            fillColor: Color.fromARGB(
-                                                68, 217, 216, 218),
-                                            // border: UnderlineInputBorder(),
-
-                                            hintText: "Half Sleeve",
-                                            labelStyle:
-                                                TextStyle(color: Colors.black),
-                                          ),
-                                          onChanged: (value) {
-                                            setState(() {
-                                              // secondName = value;
-                                            });
-                                          },
-                                          validator: (value) {
-                                            if (value!.isEmpty) {
-                                              return ("Please Enter Your Email!");
-                                            }
+                                            return null;
                                             // reg expression
                                           },
                                         ),
@@ -456,73 +457,37 @@ class _FormCompanyOverviewState extends State<FormCompanyOverview> {
                             const SizedBox(
                               height: 10,
                             ),
-                            Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.black, width: 1)),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Select Main Image',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Positioned(
-                                        child: IconButton(
-                                          onPressed: selectImage,
-                                          icon: const Icon(
-                                              Icons.add_a_photo_outlined),
-                                          color: Colors.black,
-                                        ),
-                                        left: -10,
-                                        // right: -10,
-                                      ),
-                                      Container()
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
                             Container(
                               child: Column(
                                 children: [
-                                  _imageCompanyImage != null
-                                      ? Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          height: 30,
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                  image: MemoryImage(
-                                                      _imageCompanyImage!))),
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        CompanyImages();
+                                      },
+                                      child: Text("Select Images")),
+                                  Divider(),
+                                  Text("Picked Files:"),
+                                  Divider(),
+                                  imagefiles != null
+                                      ? Wrap(
+                                          children: imagefiles!.map((imageone) {
+                                            return Container(
+                                                child: Card(
+                                              child: Container(
+                                                height: 50,
+                                                width: 50,
+                                                child: Image.file(
+                                                    File(imageone.path)),
+                                              ),
+                                            ));
+                                          }).toList(),
                                         )
-                                      : Container(
-                                          height: 50,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          child: Image.network(
-                                              "https://icons.veryicon.com/png/o/miscellaneous/user-interface-flat-multicolor/5725-select-image.png"),
-                                        )
-                                  // _image != null
-                                  //     ? CircleAvatar(
-                                  //         backgroundImage: MemoryImage(_image!),
-                                  //       )
-                                  //     : const CircleAvatar(
-                                  //         backgroundImage: NetworkImage(
-                                  //             "assets/images/user_logo.png"),
-                                  //       ),
+                                      : Container()
                                 ],
                               ),
+                            ),
+                            const SizedBox(
+                              height: 15,
                             ),
                             const SizedBox(
                               height: 10,
@@ -531,47 +496,18 @@ class _FormCompanyOverviewState extends State<FormCompanyOverview> {
                             const SizedBox(
                               height: 10,
                             ),
-                            Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.black, width: 1)),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Select Main Image',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Positioned(
-                                        child: IconButton(
-                                          onPressed: _SelectImageCertification,
-                                          icon: const Icon(
-                                              Icons.add_a_photo_outlined),
-                                          color: Colors.black,
-                                        ),
-                                        left: -10,
-                                        // right: -10,
-                                      ),
-                                      Container()
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  _SelectImageCertification();
+                                },
+                                child: Text("Select Images")),
                             const SizedBox(
                               height: 10,
                             ),
                             Container(
                               child: Column(
                                 children: [
-                                  _imageCertification != null
+                                  imageCertification != null
                                       ? Container(
                                           width:
                                               MediaQuery.of(context).size.width,
@@ -579,9 +515,9 @@ class _FormCompanyOverviewState extends State<FormCompanyOverview> {
                                           decoration: BoxDecoration(
                                               image: DecorationImage(
                                                   image: MemoryImage(
-                                                      _imageCertification!))),
+                                                      imageCertification!))),
                                         )
-                                      : Container(
+                                      : SizedBox(
                                           height: 50,
                                           width:
                                               MediaQuery.of(context).size.width,
@@ -606,45 +542,18 @@ class _FormCompanyOverviewState extends State<FormCompanyOverview> {
                             const SizedBox(
                               height: 10,
                             ),
-                            Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.black, width: 1)),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Select Main Image',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Positioned(
-                                        child: IconButton(
-                                          onPressed:
-                                              _SelectImageProductCertification,
-                                          icon: const Icon(
-                                              Icons.add_a_photo_outlined),
-                                          color: Colors.black,
-                                        ),
-                                        left: -10,
-                                        // right: -10,
-                                      ),
-                                      Container()
-                                    ],
-                                  ),
-                                ),
-                              ],
+                            ElevatedButton(
+                                onPressed: () {
+                                  _SelectImageProductCertification();
+                                },
+                                child: Text("Select Images")),
+                            const SizedBox(
+                              height: 10,
                             ),
                             Container(
                               child: Column(
                                 children: [
-                                  _imageProductCertification != null
+                                  imageProductCertification != null
                                       ? Container(
                                           width:
                                               MediaQuery.of(context).size.width,
@@ -652,9 +561,9 @@ class _FormCompanyOverviewState extends State<FormCompanyOverview> {
                                           decoration: BoxDecoration(
                                               image: DecorationImage(
                                                   image: MemoryImage(
-                                                      _imageProductCertification!))),
+                                                      imageProductCertification!))),
                                         )
-                                      : Container(
+                                      : SizedBox(
                                           height: 50,
                                           width:
                                               MediaQuery.of(context).size.width,
@@ -682,39 +591,13 @@ class _FormCompanyOverviewState extends State<FormCompanyOverview> {
                             const SizedBox(
                               height: 10,
                             ),
-                            Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.black, width: 1)),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Select Main Image',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Positioned(
-                                        child: IconButton(
-                                          onPressed: _SelectImagePatents,
-                                          icon: const Icon(
-                                              Icons.add_a_photo_outlined),
-                                          color: Colors.black,
-                                        ),
-                                        left: -10,
-                                        // right: -10,
-                                      ),
-                                      Container()
-                                    ],
-                                  ),
-                                ),
-                              ],
+                            ElevatedButton(
+                                onPressed: () {
+                                  _Select_imagePatents();
+                                },
+                                child: Text("Select Images")),
+                            const SizedBox(
+                              height: 10,
                             ),
                             const SizedBox(
                               height: 10,
@@ -722,7 +605,7 @@ class _FormCompanyOverviewState extends State<FormCompanyOverview> {
                             Container(
                               child: Column(
                                 children: [
-                                  _imagePatents != null
+                                  imagePatents != null
                                       ? Container(
                                           width:
                                               MediaQuery.of(context).size.width,
@@ -730,9 +613,9 @@ class _FormCompanyOverviewState extends State<FormCompanyOverview> {
                                           decoration: BoxDecoration(
                                               image: DecorationImage(
                                                   image: MemoryImage(
-                                                      _imagePatents!))),
+                                                      imagePatents!))),
                                         )
-                                      : Container(
+                                      : SizedBox(
                                           height: 50,
                                           width:
                                               MediaQuery.of(context).size.width,
@@ -757,39 +640,13 @@ class _FormCompanyOverviewState extends State<FormCompanyOverview> {
                             const SizedBox(
                               height: 10,
                             ),
-                            Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.black, width: 1)),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Select Main Image',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Positioned(
-                                        child: IconButton(
-                                          onPressed: _SelectImageTrademark,
-                                          icon: const Icon(
-                                              Icons.add_a_photo_outlined),
-                                          color: Colors.black,
-                                        ),
-                                        left: -10,
-                                        // right: -10,
-                                      ),
-                                      Container()
-                                    ],
-                                  ),
-                                ),
-                              ],
+                            ElevatedButton(
+                                onPressed: () {
+                                  _SelectImageTrademark();
+                                },
+                                child: Text("Select Images")),
+                            const SizedBox(
+                              height: 10,
                             ),
                             const SizedBox(
                               height: 10,
@@ -797,7 +654,7 @@ class _FormCompanyOverviewState extends State<FormCompanyOverview> {
                             Container(
                               child: Column(
                                 children: [
-                                  _imageTrademark != null
+                                  imageTrademark != null
                                       ? Container(
                                           width:
                                               MediaQuery.of(context).size.width,
@@ -805,9 +662,9 @@ class _FormCompanyOverviewState extends State<FormCompanyOverview> {
                                           decoration: BoxDecoration(
                                               image: DecorationImage(
                                                   image: MemoryImage(
-                                                      _imageTrademark!))),
+                                                      imageTrademark!))),
                                         )
-                                      : Container(
+                                      : SizedBox(
                                           height: 50,
                                           width:
                                               MediaQuery.of(context).size.width,
@@ -826,12 +683,15 @@ class _FormCompanyOverviewState extends State<FormCompanyOverview> {
                               ),
                             ),
                             ElevatedButton(
-                                onPressed: () {},
-                                child: Text('Click'),
+                                onPressed: () {
+                                  SaveCompanyOverview();
+                                },
                                 style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.all(
-                                        Color.fromARGB(255, 48, 93, 242)))),
-                            SizedBox(
+                                        const Color.fromARGB(
+                                            255, 48, 93, 242))),
+                                child: const Text('Click')),
+                            const SizedBox(
                               height: 8,
                             ),
                           ],
@@ -844,5 +704,33 @@ class _FormCompanyOverviewState extends State<FormCompanyOverview> {
             ),
           ),
         ));
+  }
+
+  void SaveCompanyOverview() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+    String userId = user!.uid;
+    String CompanyData = await ModelCompanyOv().SaveCompanyOverveiw(
+        companyName: companyName,
+        businessType: businessType,
+        mainProducts: mainProducts,
+        totalEmployee: totalEmployee,
+        totalAnnualRevenue: totalAnnualRevenue,
+        yearEstablished: yearEstablished,
+        countryValue: countryValue,
+        stateValue: stateValue,
+        cityValue: cityValue,
+        v_user_id: userId,
+        imageCompanyImage: imagefiles ?? [],
+        imageCertification: imageCertification!,
+        imageProductCertification: imageProductCertification!,
+        imagePatents: imagePatents!,
+        imageTrademark: imageTrademark!);
+    setState(() {
+      _loading = true;
+    });
+    Fluttertoast.showToast(msg: "Data Save");
+    Get.snackbar("Dear Vendor", "Company Overview Added");
+    Get.to(CreateStore());
   }
 }

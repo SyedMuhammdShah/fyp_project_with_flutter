@@ -1,21 +1,18 @@
-import 'dart:io';
 import 'dart:typed_data';
+import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:fyp_project/screens/login_screen.dart';
 import 'package:fyp_project/widgets/pickImage.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import '../../Models/saveDataFireStroe.dart';
-import '../../Models/user_model.dart';
+import 'package:dropdown_textfield/dropdown_textfield.dart';
+
 // import '../Models/user_model.dart';
 
 class VenderSignUp extends StatefulWidget {
@@ -29,16 +26,33 @@ class _SignUpScrennState extends State<VenderSignUp> {
   bool _loading = false;
 
   final List<String> items = ['Client', 'Vender'];
-  String selectedValue = "Vendor";
+  String selectedValue = "";
   final _formKey = GlobalKey<FormState>();
   String email = "";
   String password = "";
+  bool _obscureText = true;
   String firstName = "";
+  String userType = "vendor";
   String secondName = "";
-  String userRole = "Vendor";
-  String city = "";
+  String countryValue = "";
+  String stateValue = "";
+  String cityValue = "";
   String storeName = "";
   late PhoneNumber phoneNumber;
+  String selectedVendorType = "";
+  late SingleValueDropDownController venderType;
+  @override
+  void initState() {
+    venderType = SingleValueDropDownController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    venderType.dispose();
+    super.dispose();
+  }
+
   final auth = FirebaseAuth.instance;
   // final TextEditingController fullname = TextEditingController();
   // final TextEditingController email = TextEditingController();
@@ -90,18 +104,43 @@ class _SignUpScrennState extends State<VenderSignUp> {
   }
 
   Uint8List? _image;
+  // Function to select image
   void selectImage() async {
-    final _firebaseStorage = FirebaseStorage.instance;
+    final firebaseStorage = FirebaseStorage.instance;
 
     Uint8List img = await pickImage(ImageSource.gallery);
     setState(() {
       _image = img;
     });
-    // ImagePicker imagePicker = ImagePicker();
-    // // XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
-    // XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
-    // print("image" + '${file?.path}');
+    ImagePicker imagePicker = ImagePicker();
+    XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
+    print("image" '${file?.path}');
   }
+
+  // Function to pick image
+  Future<Uint8List> pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      return pickedFile.readAsBytes();
+    } else {
+      throw 'No image selected.';
+    }
+  }
+  // void selectImage() async {
+  //   final firebaseStorage = FirebaseStorage.instance;
+
+  //   Uint8List img = await pickImage(ImageSource.gallery);
+  //   setState(() {
+  //     _image = img;
+  //   });
+  //   ImagePicker imagePicker = ImagePicker();
+  //   // XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
+  //   XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
+  //   print("image" '${file?.path}');
+
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -112,16 +151,15 @@ class _SignUpScrennState extends State<VenderSignUp> {
         child: Stack(
           children: [
             // Background Image
-
             Center(
               child: SingleChildScrollView(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Image.asset(
@@ -130,6 +168,30 @@ class _SignUpScrennState extends State<VenderSignUp> {
                         //height: 100,
                       ),
 
+                      // Stack(
+                      //   alignment: Alignment.center,
+                      //   children: [
+                      //     _image != null
+                      //         ? CircleAvatar(
+                      //             radius: 60,
+                      //             backgroundImage: MemoryImage(_image!),
+                      //           )
+                      //         : const CircleAvatar(
+                      //             radius: 60,
+                      //             backgroundImage: NetworkImage(
+                      //                 "assets/images/user_logo.png"),
+                      //           ),
+                      //     Positioned(
+                      //       bottom: -10,
+                      //       child: IconButton(
+                      //         onPressed: selectImage,
+                      //         icon: const Icon(Icons.add_a_photo_outlined),
+                      //         color: Colors.white,
+                      //       ),
+                      //       // right: -10,
+                      //     )
+                      //   ],
+                      // ),
                       Stack(
                         alignment: Alignment.center,
                         children: [
@@ -144,14 +206,23 @@ class _SignUpScrennState extends State<VenderSignUp> {
                                       "assets/images/user_logo.png"),
                                 ),
                           Positioned(
+                            bottom: -10,
                             child: IconButton(
                               onPressed: selectImage,
                               icon: const Icon(Icons.add_a_photo_outlined),
                               color: Colors.white,
                             ),
-                            bottom: -10,
                             // right: -10,
-                          )
+                          ),
+                          if (_image ==
+                              null) // Add this condition to display error message
+                            Positioned(
+                              top: 0,
+                              child: Text(
+                                'Please select an image',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
                         ],
                       ),
                       const SizedBox(
@@ -196,8 +267,9 @@ class _SignUpScrennState extends State<VenderSignUp> {
                                     },
                                     validator: (value) {
                                       if (value!.isEmpty) {
-                                        return ("Please Enter Your Email!");
+                                        return ("Please Fill this Field!");
                                       }
+                                      return null;
                                       // reg expression
                                     },
                                   ),
@@ -241,8 +313,9 @@ class _SignUpScrennState extends State<VenderSignUp> {
                                     },
                                     validator: (value) {
                                       if (value!.isEmpty) {
-                                        return ("Please Enter Your Email!");
+                                        return ("Please Fill this Field!");
                                       }
+                                      return null;
                                       // reg expression
                                     },
                                   ),
@@ -284,30 +357,44 @@ class _SignUpScrennState extends State<VenderSignUp> {
                           if (value!.isEmpty) {
                             return ("Please Enter Your Email!");
                           }
+                          return null;
                           // reg expression
                         },
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-                      Text("Password"),
+                      const Text("Password"),
                       const SizedBox(
                         height: 10,
                       ),
+
                       TextFormField(
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           border: InputBorder.none,
                           focusedBorder: InputBorder.none,
                           enabledBorder: InputBorder.none,
                           errorBorder: InputBorder.none,
                           disabledBorder: InputBorder.none,
-                          filled: true, //<-- SEE HERE
-                          fillColor: Color.fromARGB(68, 217, 216, 218),
-                          // border: UnderlineInputBorder(),
-
+                          filled: true,
+                          fillColor: const Color.fromARGB(68, 217, 216, 218),
                           hintText: "********",
-                          labelStyle: TextStyle(color: Colors.black),
+                          labelStyle: const TextStyle(color: Colors.black),
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _obscureText = !_obscureText;
+                              });
+                            },
+                            child: Icon(
+                              _obscureText
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: Colors.grey,
+                            ),
+                          ),
                         ),
+                        obscureText: _obscureText,
                         onChanged: (value) {
                           setState(() {
                             password = value;
@@ -315,16 +402,44 @@ class _SignUpScrennState extends State<VenderSignUp> {
                         },
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return ("Please Enter Your Email!");
+                            return ("Please Fill this Field!");
                           }
+                          return null;
                           // reg expression
                         },
                       ),
-                      SizedBox(height: 10),
+                      // TextFormField(
+                      //   decoration: const InputDecoration(
+                      //     border: InputBorder.none,
+                      //     focusedBorder: InputBorder.none,
+                      //     enabledBorder: InputBorder.none,
+                      //     errorBorder: InputBorder.none,
+                      //     disabledBorder: InputBorder.none,
+                      //     filled: true, //<-- SEE HERE
+                      //     fillColor: Color.fromARGB(68, 217, 216, 218),
+                      //     // border: UnderlineInputBorder(),
+
+                      //     hintText: "********",
+                      //     labelStyle: TextStyle(color: Colors.black),
+                      //   ),
+                      //   onChanged: (value) {
+                      //     setState(() {
+                      //       password = value;
+                      //     });
+                      //   },
+                      //   validator: (value) {
+                      //     if (value!.isEmpty) {
+                      //       return ("Please Enter Your Email!");
+                      //     }
+                      //     // reg expression
+                      //   },
+                      // ),
+
+                      const SizedBox(height: 10),
                       const SizedBox(
                         height: 10,
                       ),
-                      Text("Store Name"),
+                      const Text("Store Name"),
                       const SizedBox(
                         height: 10,
                       ),
@@ -349,47 +464,105 @@ class _SignUpScrennState extends State<VenderSignUp> {
                         },
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return ("Please Enter Your Email!");
+                            return ("Please Fill this Field!");
                           }
+                          return null;
                           // reg expression
                         },
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-                      Text("Where Should Your Store be hosted?"),
+                      const Text("Where Should Your Store be hosted?"),
                       const SizedBox(
                         height: 10,
                       ),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          errorBorder: InputBorder.none,
-                          disabledBorder: InputBorder.none,
-                          filled: true, //<-- SEE HERE
-                          fillColor: Color.fromARGB(68, 217, 216, 218),
-                          // border: UnderlineInputBorder(),
+                      Container(
+                        child: CSCPicker(
+                          onCountryChanged: (value) {
+                            setState(() {
+                              countryValue = value;
+                            });
+                          },
+                          onStateChanged: (value) {
+                            setState(() {
+                              // Check if value is not null before using it
+                              if (value != null) {
+                                stateValue = value;
+                              }
+                            });
+                          },
+                          onCityChanged: (value) {
+                            setState(() {
+                              // Check if value is not null before using it
+                              if (value != null) {
+                                cityValue = value;
+                              }
+                            });
 
-                          hintText: "Karachi, Pakistan",
-                          labelStyle: TextStyle(color: Colors.black),
+                            print("Country Name " +
+                                countryValue +
+                                "State " +
+                                stateValue +
+                                "City " +
+                                cityValue);
+                          },
                         ),
-                        onChanged: (value) {
-                          setState(() {
-                            city = value;
-                          });
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return ("Please Enter Your Email!");
-                          }
-                          // reg expression
-                        },
                       ),
-                      SizedBox(height: 10),
-                      Text("Phone Number"),
-                      SizedBox(height: 10),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const Text(
+                        "Industry Type",
+                        textAlign: TextAlign.left,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      DropDownTextField(
+                          controller: venderType,
+                          clearOption: true,
+                          searchDecoration: const InputDecoration(
+                              hintText: "enter your custom hint text here"),
+                          validator: (value) {
+                            if (value == null) {
+                              return "Required field";
+                            } else {
+                              return null;
+                            }
+                          },
+                          dropDownItemCount: 6,
+                          dropDownList: const [
+                            DropDownValueModel(
+                                name: 'Apparel', value: "Apparel"),
+                            DropDownValueModel(
+                              name: 'Yarn',
+                              value: "Yarn",
+                            ),
+                            DropDownValueModel(
+                              name: 'Fabrics',
+                              value: "Fabrics",
+                            ),
+                            DropDownValueModel(
+                              name: 'Trims',
+                              value: "Trims",
+                            ),
+                          ],
+                          onChanged: (value) {
+                            // Convert the dynamic type to DropDownValueModel
+                            DropDownValueModel selectedValue =
+                                value as DropDownValueModel;
+
+                            // Update the selected value
+                            selectedVendorType = selectedValue.value;
+
+                            // Print the selected value
+                            print("Selected Vendor Type: $selectedVendorType");
+                          }),
+
+                      const SizedBox(height: 10),
+                      const Text("Phone Number"),
+                      const SizedBox(height: 10),
                       IntlPhoneField(
                         decoration: const InputDecoration(
                           labelText: 'Phone Number',
@@ -407,11 +580,10 @@ class _SignUpScrennState extends State<VenderSignUp> {
                         onChanged: (value) {
                           setState(() {
                             phoneNumber = value;
-                            print(phoneNumber);
                           });
                         },
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       // DropdownButtonHideUnderline(
                       //   child: DropdownButtonHideUnderline(
                       //     child: DropdownButton2<String>(
@@ -454,32 +626,37 @@ class _SignUpScrennState extends State<VenderSignUp> {
                       // ),
                       ElevatedButton(
                           onPressed: () {
+                            print("hello");
                             signUp(email, password);
+                            print(selectedValue);
                             // print("user " + email + " " + fullname);
                             // print("user " + selectedValue!);
                           },
-                          child: Text('SingUp'),
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(
-                                  Color.fromARGB(255, 48, 93, 242)))),
-                      SizedBox(
+                                  const Color.fromARGB(255, 48, 93, 242))),
+                          child: const Text(
+                            'SingUp',
+                            style: TextStyle(color: Colors.white),
+                          )),
+                      const SizedBox(
                         height: 8,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             "Have you already account?",
                             style: TextStyle(fontSize: 13),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           GestureDetector(
                             onTap: () {
-                              Get.to(LoginScreen());
+                              Get.to(const LoginScreen());
                             },
-                            child: Text("Login",
+                            child: const Text("Login",
                                 style: TextStyle(
                                     fontSize: 13, color: Colors.amber)),
                           ),
@@ -504,110 +681,44 @@ class _SignUpScrennState extends State<VenderSignUp> {
         String userId = userCredential.user!.uid; // Get the user ID
 
         saveData(userId); // Pass the user ID to saveData
+        print('signup');
       } catch (e) {
         Fluttertoast.showToast(msg: 'e');
       }
     }
   }
 
-  void saveData(String v_user_id) async {
+  void saveData(String vUserId) async {
+    print('savedata');
+
     String resp = await SaveData().SaveDataImage(
-      v_user_id: v_user_id, // Pass the user ID here
+      v_user_id: vUserId, // Pass the user ID here
       email: email,
       password: password,
       firstName: firstName,
       secondName: secondName,
-      userRole: userRole,
-      city: city,
+      userType: userType,
+      countryValue: countryValue,
+      stateValue: stateValue,
+      cityValue: cityValue,
       storeName: storeName,
       // phoneNumber: phoneNumber,
-      selectedValue: selectedValue,
+      selectedValue: selectedVendorType,
       file: _image!,
     );
     print(email);
     print(firstName);
-    print(phoneNumber);
+    //print(phoneNumber);
     print(password);
     print(selectedValue);
-    print(_image);
+    print(selectedVendorType);
     setState(() {
       _loading = true;
     });
     Navigator.push(
-      context as BuildContext,
+      context,
       MaterialPageRoute(builder: (context) => const LoginScreen()),
     );
     Fluttertoast.showToast(msg: "ACCOUNT CREATED");
   }
-
-  // Future<void> signUp(String email, String password) async {
-  //   if (_formKey.currentState!.validate()) {
-  //    UserCredential userCredential =  (await auth
-  //         .createUserWithEmailAndPassword(email: email, password: password)
-  //         .then((value) => {
-  //               // postDetailsToFirestore(),
-  //               saveData()
-  //             })
-  //         .catchError((e) {
-  //       Fluttertoast.showToast(msg: e!.message);
-  //     })) as UserCredential;
-  //   }
-  // }
-
-  // void saveData() async {
-  //   String resp = await SaveData().SaveDataImage(
-  //       email: email,
-  //       password: password,
-  //       fullname: fullname,
-  //       // phoneNumber: phoneNumber,
-  //       selectedValue: selectedValue,
-  //       file: _image!);
-  //   print(email);
-  //   print(fullname);
-  //   print(phoneNumber);
-  //   print(password);
-  //   print(selectedValue);
-  //   print(_image);
-  //   Navigator.push(
-  //     context as BuildContext,
-  //     MaterialPageRoute(builder: (context) => const LoginScreen()),
-  //   );
-  //   Fluttertoast.showToast(msg: "ACCOUNT CREATED");
-  // }
-  // postDetailsToFirestore() async {
-  //   // Calling Our Firebase Store
-  //   // Calling Our User Model
-  //   // Sending these Values
-
-  //   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  //   User? users = auth.currentUser;
-
-  //   UserModel userModel = UserModel();
-
-  //   userModel.email = users!.email;
-  //   userModel.user_id = users.uid;
-  //   userModel.fullname = fullname;
-  //   userModel.phoneNumber = phoneNumber;
-  //   userModel.password = password;
-
-  //   userModel.user_image = 'file?.path';
-  //   userModel.user_role = selectedValue;
-
-  //   print(email);
-  //   print(email);
-  //   print(fullname);
-  //   print(phoneNumber);
-  //   print(password);
-  //   print(selectedValue);
-  //   print(_image);
-  //   await firebaseFirestore
-  //       .collection("users")
-  //       .doc(users.uid)
-  //       .set(userModel.toMap());
-  //   Navigator.push(
-  //     context as BuildContext,
-  //     MaterialPageRoute(builder: (context) => const LoginScreen()),
-  //   );
-  //   Fluttertoast.showToast(msg: "ACCOUNT CREATED");
-  // }
 }

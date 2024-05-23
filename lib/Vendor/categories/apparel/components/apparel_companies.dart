@@ -8,7 +8,7 @@ class ApparelCompanies extends StatelessWidget {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             color: Colors.white, // Background color of the container
@@ -19,7 +19,7 @@ class ApparelCompanies extends StatelessWidget {
                 color: Colors.grey.withOpacity(0.8),
                 spreadRadius: 2, // Adjust spread radius as needed
                 blurRadius: 5,
-                offset: Offset(0, 3), // Adjust shadow offset
+                offset: const Offset(0, 3), // Adjust shadow offset
               ),
             ],
           ),
@@ -29,7 +29,7 @@ class ApparelCompanies extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                padding: EdgeInsets.only(right: 10),
+                padding: const EdgeInsets.only(right: 10),
                 child: Image.asset(
                   'assets/images/product1.png',
                   fit: BoxFit.cover,
@@ -37,16 +37,16 @@ class ApparelCompanies extends StatelessWidget {
                   height: 100,
                 ),
               ),
-              Container(
+              SizedBox(
                 width: 130,
                 child: Column(
                   // mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(
+                    const Text(
                       "Discover the Shirt ",
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 3,
                     ),
                     Row(
@@ -56,8 +56,8 @@ class ApparelCompanies extends StatelessWidget {
                             color: Colors.amber,
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          padding: EdgeInsets.all(7),
-                          child: Text(
+                          padding: const EdgeInsets.all(7),
+                          child: const Text(
                             "Short Sleeve",
                             style: TextStyle(fontSize: 10),
                           ),
@@ -67,13 +67,13 @@ class ApparelCompanies extends StatelessWidget {
                             color: Colors.amber,
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          padding: EdgeInsets.all(7),
-                          child: Text("Casual Shirt",
+                          padding: const EdgeInsets.all(7),
+                          child: const Text("Casual Shirt",
                               style: TextStyle(fontSize: 10)),
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     const Divider(

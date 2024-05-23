@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_carousel_slider/flutter_custom_carousel_slider.dart';
-
+import 'package:fyp_project/Client/categories/apparel/components/display_store.dart';
+import 'package:fyp_project/Client/order/order_show_screen.dart';
+import 'package:fyp_project/Client/order/payment.dart';
 import '../fitness_app_theme.dart';
 import '../ui_view/area_list_view.dart';
-import '../ui_view/custom_tab_bar_view.dart';
 import '../ui_view/running_view.dart';
 import '../ui_view/title_view.dart';
 import '../ui_view/workout_view.dart';
@@ -84,11 +85,11 @@ class _TrainingScreenState extends State<OrderScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     topBarAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: widget.animationController!,
-            curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
+            curve: const Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
     // const CustomTabBarView();
     addAllListData();
 
@@ -127,7 +128,7 @@ class _TrainingScreenState extends State<OrderScreen>
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
             curve:
-                Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn))),
+                const Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController!,
       ),
     );
@@ -137,7 +138,7 @@ class _TrainingScreenState extends State<OrderScreen>
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
             curve:
-                Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+                const Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController!,
       ),
     );
@@ -146,7 +147,7 @@ class _TrainingScreenState extends State<OrderScreen>
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
             curve:
-                Interval((1 / count) * 3, 1.0, curve: Curves.fastOutSlowIn))),
+                const Interval((1 / count) * 3, 1.0, curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController!,
       ),
     );
@@ -158,7 +159,7 @@ class _TrainingScreenState extends State<OrderScreen>
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
             curve:
-                Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
+                const Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController!,
       ),
     );
@@ -168,7 +169,7 @@ class _TrainingScreenState extends State<OrderScreen>
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
                 parent: widget.animationController!,
-                curve: Interval((1 / count) * 5, 1.0,
+                curve: const Interval((1 / count) * 5, 1.0,
                     curve: Curves.fastOutSlowIn))),
         mainScreenAnimationController: widget.animationController!,
       ),
@@ -185,13 +186,13 @@ class _TrainingScreenState extends State<OrderScreen>
     return Container(
       color: FitnessAppTheme.background,
       child: DefaultTabController(
-          length: 5,
+          length: 2,
           child: Scaffold(
               body: NestedScrollView(
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
-                new SliverAppBar(
+                const SliverAppBar(
                   title: Text('Order'),
                   pinned: true,
                   floating: true,
@@ -199,11 +200,7 @@ class _TrainingScreenState extends State<OrderScreen>
                     isScrollable: true,
                     tabs: [
                       Tab(child: Text('All orders')),
-                      Tab(child: Text('Order In Process')),
-                      Tab(child: Text('Awaiting Payment')),
-                      Tab(child: Text('Awaiting Fulfillment')),
-                      Tab(child: Text('Awaiting Shipment')),
-                      Tab(child: Text('Complete Order')),
+                      Tab(child: Text('Payment')),
                     ],
                   ),
                 ),
@@ -211,12 +208,8 @@ class _TrainingScreenState extends State<OrderScreen>
             },
             body: TabBarView(
               children: <Widget>[
-                getMainListViewUI(),
-                flutter_custom_carousel(),
-                Icon(Icons.directions_car, size: 350),
-                Icon(Icons.directions_bike, size: 350),
-                Icon(Icons.directions_boat, size: 350),
-                getMainListViewUI(),
+                OrderShowScreen(),
+                CustomCardPaymentScreen(),
               ],
             ),
           ))),
@@ -230,21 +223,7 @@ class _TrainingScreenState extends State<OrderScreen>
         if (!snapshot.hasData) {
           return const SizedBox();
         } else {
-          return ListView.builder(
-            controller: scrollController,
-            padding: EdgeInsets.only(
-              top: AppBar().preferredSize.height +
-                  MediaQuery.of(context).padding.top +
-                  24,
-              bottom: 62 + MediaQuery.of(context).padding.bottom,
-            ),
-            itemCount: listViews.length,
-            scrollDirection: Axis.vertical,
-            itemBuilder: (BuildContext context, int index) {
-              widget.animationController?.forward();
-              return listViews[index];
-            },
-          );
+          return Text("HELLO");
         }
       },
     );

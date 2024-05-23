@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fyp_project/Vendor/Vendor_home_screen.dart';
 import 'package:fyp_project/route.dart';
-import 'package:fyp_project/screens/Client%20Screen/c_homeScreen.dart';
+import 'package:fyp_project/screens/Client%20Screen/client_Signup.dart';
+import 'package:fyp_project/screens/Client%20Screen/client_login_screen.dart';
 import 'package:fyp_project/screens/SplashScreen.dart';
 import 'package:fyp_project/screens/Venders%20Screen/v_homeScreen.dart';
 import 'package:fyp_project/screens/Venders%20Screen/venders_Signup.dart';
@@ -43,11 +44,11 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => LoginScreen(),
+        '/': (context) => const SplashScreen(),
         MainRoutes.HomeScreen: (context) => const HomeScreen(),
         MainRoutes.LoginScreen: (context) => const LoginScreen(),
         MainRoutes.SignUpScreen: (context) => const SignUpScreen(),
-        MainRoutes.SplashScreen: (context) => SplashScreen(),
+        MainRoutes.SplashScreen: (context) => const SplashScreen(),
         MainRoutes.WelcomeScreen: (context) => const WelcomeScreen(),
         MainRoutes.SelectScreen: (context) => const SelectScreen(),
 
@@ -56,12 +57,13 @@ class MyApp extends StatelessWidget {
             const IntroductionAnimationScreen(),
 
         //Clients Routes
-        MainRoutes.c_homeScreen: (context) => const HomeClient(),
         //new
-        MainRoutes.ClientHomeScreen: (context) => ClientHomeScreen(),
+        MainRoutes.ClientHomeScreen: (context) => const ClientHomeScreen(),
+        MainRoutes.Client_signUp: (context) => const ClientSignUp(),
+        MainRoutes.Client_login: (context) => const ClientLogin(),
 
         // Venders Routes
-        MainRoutes.VendorHomeScreen: (context) => VendorHomeScreen(),
+        MainRoutes.VendorHomeScreen: (context) => const VendorHomeScreen(),
         MainRoutes.vender_Signup: (context) => const VenderSignUp(),
         MainRoutes.v_homeScreen: (context) => const HomeVender(),
       },
@@ -74,8 +76,8 @@ class HexColor extends Color {
 
   static int _getColorFromHex(String hexColor) {
     hexColor = hexColor.toUpperCase().replaceAll('#', '');
-    if (hexColor.length == 6) {
-      hexColor = 'FF' + hexColor;
+    if (hexColor.length == 2) {
+      hexColor = 'FF$hexColor';
     }
     return int.parse(hexColor, radix: 16);
   }

@@ -4,6 +4,9 @@
     "cSpell.words": [
         "cupertino",
         "ecommerce",
-        "Firestore"
-    ]
+        "Firestore",
+        "imagepicker",
+        "Varifiedimage"
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

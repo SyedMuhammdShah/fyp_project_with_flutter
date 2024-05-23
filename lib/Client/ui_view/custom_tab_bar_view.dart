@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:animated_segmented_tab_control/animated_segmented_tab_control.dart';
-import '../fitness_app_theme.dart';
 
 class CustomTabBarView extends StatelessWidget {
   final String titleTxt;
@@ -8,14 +6,14 @@ class CustomTabBarView extends StatelessWidget {
   final AnimationController? animationController;
   final Animation<double>? animation;
   final List<Widget> _tabs = [
-    FirstTab(),
-    SecondTab(),
+    const FirstTab(),
+    const SecondTab(),
   ];
 
   CustomTabBarView(
       {Key? key,
-      this.titleTxt: "",
-      this.subTxt: "",
+      this.titleTxt = "",
+      this.subTxt = "",
       this.animationController,
       this.animation})
       : super(key: key);
@@ -27,12 +25,12 @@ class CustomTabBarView extends StatelessWidget {
       builder: (BuildContext context, Widget? child) {
         return FadeTransition(
           opacity: animation!,
-          child: new Transform(
-            transform: new Matrix4.translationValues(
+          child: Transform(
+            transform: Matrix4.translationValues(
                 0.0, 30 * (1.0 - animation!.value), 0.0),
             child: Container(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 24, right: 24),
+              child: const Padding(
+                padding: EdgeInsets.only(left: 24, right: 24),
                 child: Row(
                   children: [
                     DefaultTabController(
@@ -64,18 +62,22 @@ class CustomTabBarView extends StatelessWidget {
 }
 
 class FirstTab extends StatelessWidget {
+  const FirstTab({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('Tab 1 Content'),
     );
   }
 }
 
 class SecondTab extends StatelessWidget {
+  const SecondTab({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('Tab 2 Content'),
     );
   }

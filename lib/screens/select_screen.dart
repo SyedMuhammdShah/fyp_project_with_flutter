@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_project/screens/Client%20Screen/client_Signup.dart';
 import 'package:fyp_project/screens/Venders%20Screen/venders_Signup.dart';
 import 'package:fyp_project/screens/signup_screen.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 class SelectScreen extends StatefulWidget {
   const SelectScreen({super.key});
@@ -18,9 +18,9 @@ class _SelectScreenState extends State<SelectScreen> {
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
-        padding: EdgeInsets.only(top: 70),
+        padding: const EdgeInsets.only(top: 70),
         alignment: Alignment.bottomCenter,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Color.fromARGB(255, 21, 220, 184),
         ),
         child: Column(
@@ -31,7 +31,7 @@ class _SelectScreenState extends State<SelectScreen> {
               height: 240,
             ),
 
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(left: 35, right: 35, top: 20),
               child: Text(
                 "The only ecommerce platform you’ll ever need.",
@@ -41,7 +41,7 @@ class _SelectScreenState extends State<SelectScreen> {
             ),
 
             // Vendor Container
-            SizedBox(
+            const SizedBox(
               height: 60,
             ),
             Container(
@@ -55,18 +55,18 @@ class _SelectScreenState extends State<SelectScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
                   // Client Select
                   GestureDetector(
                     onTap: () {
-                      Get.to(SignUpScreen());
+                      Get.to(const ClientSignUp());
                     },
                     child: Container(
                       width: 120,
                       decoration: BoxDecoration(
-                        color: Color(
+                        color: const Color(
                             0xff132137), // Change this to your desired background color
                         borderRadius: BorderRadius.circular(
                             10.0), // Optional: Add rounded corners
@@ -75,13 +75,13 @@ class _SelectScreenState extends State<SelectScreen> {
                             color: Colors.grey.withOpacity(0.5), // Shadow color
                             spreadRadius: 2, // Spread radius
                             blurRadius: 5, // Blur radius
-                            offset: Offset(
+                            offset: const Offset(
                                 0, 3), // Offset in the x and y directions
                           ),
                         ],
                       ),
-                      margin: EdgeInsets.all(5),
-                      padding: EdgeInsets.only(bottom: 5),
+                      margin: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.only(bottom: 5),
                       child: Column(
                         children: [
                           Image.asset(
@@ -90,10 +90,10 @@ class _SelectScreenState extends State<SelectScreen> {
                             width: 150,
                             fit: BoxFit.fill,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 4,
                           ),
-                          Text(
+                          const Text(
                             "Client",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -106,12 +106,12 @@ class _SelectScreenState extends State<SelectScreen> {
                   // Vendors Select
                   GestureDetector(
                     onTap: () {
-                      Get.to(VenderSignUp());
+                      Get.to(const VenderSignUp());
                     },
                     child: Container(
                       width: 120,
                       decoration: BoxDecoration(
-                        color: Color(
+                        color: const Color(
                             0xff132137), // Change this to your desired background color
                         borderRadius: BorderRadius.circular(
                             10.0), // Optional: Add rounded corners
@@ -120,13 +120,13 @@ class _SelectScreenState extends State<SelectScreen> {
                             color: Colors.grey.withOpacity(0.5), // Shadow color
                             spreadRadius: 2, // Spread radius
                             blurRadius: 5, // Blur radius
-                            offset: Offset(
+                            offset: const Offset(
                                 0, 3), // Offset in the x and y directions
                           ),
                         ],
                       ),
-                      margin: EdgeInsets.all(5),
-                      padding: EdgeInsets.only(bottom: 5),
+                      margin: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.only(bottom: 5),
                       child: Column(
                         children: [
                           Image.asset(
@@ -135,10 +135,10 @@ class _SelectScreenState extends State<SelectScreen> {
                             width: 150,
                             fit: BoxFit.fill,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 4,
                           ),
-                          Text(
+                          const Text(
                             "Venders",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,

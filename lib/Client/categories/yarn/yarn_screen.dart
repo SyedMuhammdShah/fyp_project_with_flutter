@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fyp_project/Client/ui_view/custom_tab_bar_view.dart';
 
 class YarnScreen extends StatefulWidget {
   const YarnScreen({super.key});
@@ -46,7 +45,7 @@ class _ApparelScreenState extends State<YarnScreen> {
           ),
         ],
       ),
-      body: Column(
+      body: const Column(
         children: [Text(" Hello")],
       ),
     );

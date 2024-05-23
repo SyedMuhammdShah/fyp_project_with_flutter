@@ -1,11 +1,15 @@
+import 'dart:io';
 import 'dart:typed_data';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fyp_project/Models/VendorModels/model_form_pro_basic_info.dart';
+import 'package:fyp_project/Vendor/store/view_store/vendor_view_store.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
-import 'package:advance_image_picker/advance_image_picker.dart';
-
 import '../../../widgets/pickImage.dart';
 
 class FormProductBasicInfo extends StatefulWidget {
@@ -16,21 +20,55 @@ class FormProductBasicInfo extends StatefulWidget {
 }
 
 class _FormProductBasicInfoState extends State<FormProductBasicInfo> {
-  Uint8List? _image;
+  bool _loading = false;
+
   final _formKey = GlobalKey<FormState>();
+
+  Uint8List? bannerImage;
   void selectImage() async {
-    final _firebaseStorage = FirebaseStorage.instance;
+    final firebaseStorage = FirebaseStorage.instance;
 
     Uint8List img = await pickImage(ImageSource.gallery);
     setState(() {
-      _image = img;
+      bannerImage = img;
     });
-    // ImagePicker imagePicker = ImagePicker();
-    // // XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
-    // XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
-    // print("image" + '${file?.path}');
   }
 
+  Uint8List? ProductsImage;
+  void selectProductsImage() async {
+    final firebaseStorage = FirebaseStorage.instance;
+
+    Uint8List img = await pickImage(ImageSource.gallery);
+    setState(() {
+      ProductsImage = img;
+    });
+  }
+
+  final ImagePicker imgpicker = ImagePicker();
+  List<XFile>? imagefiles;
+
+  openImages() async {
+    try {
+      var pickedfiles = await imgpicker.pickMultiImage();
+      //you can use ImageCourse.camera for Camera capture
+      if (pickedfiles != null) {
+        imagefiles = pickedfiles;
+        setState(() {});
+      } else {
+        print("No image is selected.");
+      }
+    } catch (e) {
+      print("error while picking file.");
+    }
+  }
+
+  var productTitle;
+  //RangeValues priceRange = RangeValues(10, 100);
+  RangeValues minOrder = RangeValues(10, 100);
+
+  var productType;
+  var size;
+  var priceRange;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +83,8 @@ class _FormProductBasicInfoState extends State<FormProductBasicInfo> {
                   Center(
                     child: SingleChildScrollView(
                       child: Container(
-                        padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+                        padding:
+                            const EdgeInsets.only(left: 20, right: 20, top: 20),
                         child: Column(
                           //mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -62,27 +101,20 @@ class _FormProductBasicInfoState extends State<FormProductBasicInfo> {
                             Container(
                               child: Column(
                                 children: [
-                                  _image != null
+                                  bannerImage != null
                                       ? Container(
                                           width:
                                               MediaQuery.of(context).size.width,
                                           height: 100,
                                           decoration: BoxDecoration(
                                               image: DecorationImage(
-                                                  image: MemoryImage(_image!))),
+                                                  image: MemoryImage(
+                                                      bannerImage!))),
                                         )
                                       : Container(
                                           child: Image.network(
                                               "https://as2.ftcdn.net/v2/jpg/04/28/76/95/1000_F_428769564_NB2T4JM9E2xsxFdXXwqW717HwgaZdpAq.jpg"),
                                         )
-                                  // _image != null
-                                  //     ? CircleAvatar(
-                                  //         backgroundImage: MemoryImage(_image!),
-                                  //       )
-                                  //     : const CircleAvatar(
-                                  //         backgroundImage: NetworkImage(
-                                  //             "assets/images/user_logo.png"),
-                                  //       ),
                                 ],
                               ),
                             ),
@@ -106,116 +138,111 @@ class _FormProductBasicInfoState extends State<FormProductBasicInfo> {
                               ),
                               onChanged: (value) {
                                 setState(() {
-                                  //email = value;
+                                  productTitle = value;
                                 });
                               },
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return ("Please Enter Your Email!");
                                 }
+                                return null;
                                 // reg expression
                               },
                             ),
                             const SizedBox(
                               height: 10,
                             ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 2),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.stretch,
-                                      children: [
-                                        const Text(
-                                          "Price Range",
-                                          textAlign: TextAlign.left,
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      const Text(
+                                        "Price Range",
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      TextFormField(
+                                        decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                          filled: true,
+                                          fillColor:
+                                              Color.fromARGB(68, 217, 216, 218),
+                                          hintText: "10 - 40",
+                                          labelStyle:
+                                              TextStyle(color: Colors.black),
                                         ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        TextFormField(
-                                          decoration: const InputDecoration(
-                                            border: InputBorder.none,
-                                            focusedBorder: InputBorder.none,
-                                            enabledBorder: InputBorder.none,
-                                            errorBorder: InputBorder.none,
-                                            disabledBorder: InputBorder.none,
-                                            filled: true, //<-- SEE HERE
-                                            fillColor: Color.fromARGB(
-                                                68, 217, 216, 218),
-                                            // border: UnderlineInputBorder(),
-
-                                            hintText: r"10 $",
-                                            labelStyle:
-                                                TextStyle(color: Colors.black),
-                                          ),
-                                          onChanged: (value) {
-                                            setState(() {
-                                              //  firstName = value;
-                                            });
-                                          },
-                                          validator: (value) {
-                                            if (value!.isEmpty) {
-                                              return ("Please Enter Your Email!");
-                                            }
-                                            // reg expression
-                                          },
-                                        ),
-                                      ],
-                                    ),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            priceRange = value;
+                                          });
+                                        },
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return ("Please Enter Your Email!");
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 2),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.stretch,
-                                      children: [
-                                        const Text(
-                                          "Min Order",
-                                          textAlign: TextAlign.left,
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        TextFormField(
-                                          decoration: const InputDecoration(
-                                            border: InputBorder.none,
-                                            focusedBorder: InputBorder.none,
-                                            enabledBorder: InputBorder.none,
-                                            errorBorder: InputBorder.none,
-                                            disabledBorder: InputBorder.none,
-                                            filled: true, //<-- SEE HERE
-                                            fillColor: Color.fromARGB(
-                                                68, 217, 216, 218),
-                                            // border: UnderlineInputBorder(),
-
-                                            hintText: "10 - 40",
-                                            labelStyle:
-                                                TextStyle(color: Colors.black),
+                                  const SizedBox(height: 16),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      const Text(
+                                        "Min Order",
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          const Text(
+                                            '',
+                                            textAlign: TextAlign.left,
                                           ),
-                                          onChanged: (value) {
-                                            setState(() {
-                                              // secondName = value;
-                                            });
-                                          },
-                                          validator: (value) {
-                                            if (value!.isEmpty) {
-                                              return ("Please Enter Your Email!");
-                                            }
-                                            // reg expression
-                                          },
-                                        ),
-                                      ],
-                                    ),
+                                          RangeSlider(
+                                            values: minOrder,
+                                            min: 0,
+                                            max: 200,
+                                            divisions: 20,
+                                            onChanged: (RangeValues values) {
+                                              setState(() {
+                                                minOrder = values;
+                                              });
+                                            },
+                                            labels: RangeLabels(
+                                              'Min: ${minOrder.start.round()}',
+                                              'Max: ${minOrder.end.round()}',
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Text(
+                                        'Selected Range: ${minOrder.start.round()} - ${minOrder.end.round()}',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-
                             const SizedBox(
                               height: 10,
                             ),
@@ -239,13 +266,14 @@ class _FormProductBasicInfoState extends State<FormProductBasicInfo> {
                               ),
                               onChanged: (value) {
                                 setState(() {
-                                  //email = value;
+                                  productType = value;
                                 });
                               },
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return ("Please Enter Your Email!");
                                 }
+                                return null;
                                 // reg expression
                               },
                             ),
@@ -271,28 +299,29 @@ class _FormProductBasicInfoState extends State<FormProductBasicInfo> {
                               autoWidth: false,
                               wrapAlignment: WrapAlignment.center,
                               unSelectedColor: Theme.of(context).canvasColor,
-                              buttonLables: [
+                              buttonLables: const [
                                 "S",
                                 "M",
                                 "L",
                                 "XL",
                                 "XXL",
                               ],
-                              disabledValues: [
+                              disabledValues: const [
                                 "",
                               ],
-                              buttonValuesList: [
-                                "Small",
-                                "Medium",
-                                "Large",
-                                "Extra Large",
-                                "Extra Extra Large",
+                              buttonValuesList: const [
+                                "S",
+                                "M",
+                                "L",
+                                "XL",
+                                "XXL",
                               ],
                               checkBoxButtonValues: (values) {
+                                size = values;
                                 print(values);
                               },
                               spacing: 0,
-                              defaultSelected: ["Monday"],
+                              defaultSelected: const ["Small"],
                               horizontal: false,
                               enableButtonWrap: false,
                               width: 70,
@@ -302,94 +331,64 @@ class _FormProductBasicInfoState extends State<FormProductBasicInfo> {
                               padding: 6,
                               // enableShape: true,
                             ),
-
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             const Text("Banner Image"),
                             const SizedBox(
                               height: 10,
                             ),
-                            Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.black, width: 1)),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Select Main Image',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Positioned(
-                                        child: IconButton(
-                                          onPressed: selectImage,
-                                          icon: const Icon(
-                                              Icons.add_a_photo_outlined),
-                                          color: Colors.black,
-                                        ),
-                                        left: -10,
-                                        // right: -10,
-                                      ),
-                                      Container()
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-
-                            // DropdownButtonHideUnderline(
-                            //   child: DropdownButtonHideUnderline(
-                            //     child: DropdownButton2<String>(
-                            //       isExpanded: true,
-                            //       hint: Text(
-                            //         'Select Type',
-                            //         style: TextStyle(
-                            //             fontSize: 14,
-                            //             // color: Theme.of(context).hintColor,
-                            //             color: Colors.black),
-                            //       ),
-                            //       items: _addDividersAfterItems(items),
-                            //       value: selectedValue,
-                            //       onChanged: (String? value) {
-                            //         setState(() {
-                            //           selectedValue = value;
-                            //         });
-                            //       },
-                            //       buttonStyleData: const ButtonStyleData(
-                            //         padding: EdgeInsets.symmetric(horizontal: 16),
-                            //         height: 40,
-                            //         width: 140,
-                            //       ),
-                            //       dropdownStyleData: const DropdownStyleData(
-                            //         maxHeight: 200,
-                            //       ),
-                            //       menuItemStyleData: MenuItemStyleData(
-                            //         padding:
-                            //             const EdgeInsets.symmetric(horizontal: 8.0),
-                            //         customHeights: _getCustomItemsHeights(),
-                            //       ),
-                            //       iconStyleData: const IconStyleData(
-                            //         openMenuIcon: Icon(Icons.arrow_drop_up),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-                            // SizedBox(
-                            //   height: 8,
-                            // ),
                             ElevatedButton(
-                                onPressed: () {},
-                                child: Text('Click'),
+                                onPressed: () {
+                                  selectImage();
+                                },
+                                child: Text("Select Image")),
+                            const SizedBox(height: 10),
+                            const Text("Selects Product"),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              child: Column(
+                                children: [
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        openImages();
+                                      },
+                                      child: Text("Select Images")),
+                                  Divider(),
+                                  Text("Picked Files:"),
+                                  Divider(),
+                                  imagefiles != null
+                                      ? Wrap(
+                                          children: imagefiles!.map((imageone) {
+                                            return Container(
+                                                child: Card(
+                                              child: Container(
+                                                height: 50,
+                                                width: 50,
+                                                child: Image.file(
+                                                    File(imageone.path)),
+                                              ),
+                                            ));
+                                          }).toList(),
+                                        )
+                                      : Container()
+                                ],
+                              ),
+                            ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  print(priceRange);
+                                  saveProBasicInfo();
+                                },
                                 style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.all(
-                                        Color.fromARGB(255, 48, 93, 242)))),
-                            SizedBox(
+                                        const Color.fromARGB(
+                                            255, 48, 93, 242))),
+                                child: const Text(
+                                  'Submit',
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                            const SizedBox(
                               height: 8,
                             ),
                           ],
@@ -402,5 +401,30 @@ class _FormProductBasicInfoState extends State<FormProductBasicInfo> {
             ),
           ),
         ));
+  }
+
+  void saveProBasicInfo() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+    String userId = user!.uid;
+    print("user ID $userId");
+    print("Images $bannerImage");
+    // String prodata = await ModelProBaic().SaveData(
+    //   productTitle: productTitle,
+    //   priceRange: priceRange,
+    //   minOrder: minOrder,
+    //   productType: productType,
+    //   size: size,
+    //   v_user_id: userId,
+    //   bannerImage: bannerImage!,
+    //   imagefiles: imagefiles ?? [],
+    // );
+    print("user ID $userId");
+
+    setState(() {
+      _loading = true;
+    });
+    Fluttertoast.showToast(msg: "Product Upload");
+    Get.to(VendorViewStore());
   }
 }

@@ -1,8 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/screens/Venders%20Screen/dashboard.dart';
-import 'package:fyp_project/screens/Venders%20Screen/orderScreen.dart';
-import 'package:fyp_project/screens/Venders%20Screen/productScreen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -14,12 +11,12 @@ class HomeVender extends StatefulWidget {
 }
 
 User? getCurrentUser() {
-  final user_profile = FirebaseAuth.instance.currentUser;
-  return user_profile;
+  final userProfile = FirebaseAuth.instance.currentUser;
+  return userProfile;
 }
 
 class _HomeVenderState extends State<HomeVender> {
-  PageController _pageController = PageController(initialPage: 0);
+  final PageController _pageController = PageController(initialPage: 0);
   int _currentIndex = 0;
 
   void _changePage(int index) {
@@ -27,7 +24,7 @@ class _HomeVenderState extends State<HomeVender> {
       _currentIndex = index;
       _pageController.animateToPage(
         _currentIndex,
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
     });
@@ -35,20 +32,18 @@ class _HomeVenderState extends State<HomeVender> {
 
   @override
   Widget build(BuildContext context) {
-    User? user_profile = getCurrentUser();
-    if (user_profile != null) {
-      print('User UID: ${user_profile.uid}');
-      print('User Email: ${user_profile.email}');
-      print('User Display Name: ${user_profile.phoneNumber}');
+    User? userProfile = getCurrentUser();
+    if (userProfile != null) {
+      print('User UID: ${userProfile.uid}');
+      print('User Email: ${userProfile.email}');
+      print('User Display Name: ${userProfile.phoneNumber}');
     }
-    int _selectedIndex = 0;
+    int selectedIndex = 0;
     return Scaffold(
       body: PageView(
         controller: _pageController,
-        children: [
+        children: const [
           Dashboard(),
-          OrderScreen(),
-          ProductScreen(),
         ],
         onPageChanged: (index) {
           setState(() {
@@ -57,16 +52,16 @@ class _HomeVenderState extends State<HomeVender> {
         },
       ),
       bottomNavigationBar: Container(
-        color: Color.fromARGB(255, 18, 64, 215),
+        color: const Color.fromARGB(255, 18, 64, 215),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5),
           child: GNav(
             color: Colors.white,
             activeColor: Colors.white,
-            tabBackgroundColor: Color.fromARGB(108, 119, 142, 216),
+            tabBackgroundColor: const Color.fromARGB(108, 119, 142, 216),
             gap: 8,
-            padding: EdgeInsets.all(14),
-            duration: Duration(milliseconds: 300),
+            padding: const EdgeInsets.all(14),
+            duration: const Duration(milliseconds: 300),
             onTabChange: _changePage,
             tabs: const [
               GButton(

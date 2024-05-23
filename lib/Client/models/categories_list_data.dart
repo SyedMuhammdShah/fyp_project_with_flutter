@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:fyp_project/Client/categories/fabrics/fabrics_screen.dart';
 import 'package:fyp_project/Client/categories/trims/trims_screen.dart';
 
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../categories/Yarn/yarn_screen.dart';
 import '../categories/apparel/apparel_screen.dart';
@@ -36,7 +34,7 @@ class MealsListData {
       startColor: '#FA7D82',
       endColor: '#FFB295',
       onTap: () {
-        Get.to(ApparelScreen());
+        Get.to(const ApparelScreen());
       },
     ),
     MealsListData(
@@ -47,18 +45,18 @@ class MealsListData {
       startColor: '#738AE6',
       endColor: '#5C5EDD',
       onTap: () {
-        Get.to(YarnScreen());
+        Get.to(const YarnScreen());
       },
     ),
     MealsListData(
-      imagePath: 'assets/fitness_app/fabrics.png',
+      imagePath: 'assets/fitness_app/yarn.png',
       titleTxt: 'Fabrics',
       kacl: 200,
       meals: <String>['Cotton,', 'Chiffon,', 'Chenille', 'etc'],
       startColor: '#FE95B6',
       endColor: '#FF5287',
       onTap: () {
-        Get.to(FabricsScreen());
+        Get.to(const FabricsScreen());
       },
     ),
     MealsListData(
@@ -69,7 +67,7 @@ class MealsListData {
       startColor: '#6F72CA',
       endColor: '#1E1466',
       onTap: () {
-        Get.to(TrimsScreen());
+        Get.to(const TrimsScreen());
       },
     ),
   ];

@@ -1,18 +1,15 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:fyp_project/screens/login_screen.dart';
 import 'package:fyp_project/widgets/pickImage.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../Models/user_model.dart';
-import 'home_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -75,16 +72,12 @@ class _SignUpScrennState extends State<SignUpScreen> {
 
   Uint8List? _image;
   void selectImage() async {
-    final _firebaseStorage = FirebaseStorage.instance;
+    final firebaseStorage = FirebaseStorage.instance;
 
     Uint8List img = await pickImage(ImageSource.gallery);
     setState(() {
       _image = img;
     });
-    // ImagePicker imagePicker = ImagePicker();
-    // // XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
-    // XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
-    // print("image" + '${file?.path}');
   }
 
   @override
@@ -100,7 +93,7 @@ class _SignUpScrennState extends State<SignUpScreen> {
             Center(
               child: SingleChildScrollView(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -110,7 +103,7 @@ class _SignUpScrennState extends State<SignUpScreen> {
                         width: 200,
                         //height: 100,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Stack(
@@ -127,12 +120,12 @@ class _SignUpScrennState extends State<SignUpScreen> {
                                       "assets/images/user_logo.png"),
                                 ),
                           Positioned(
+                            bottom: -10,
                             child: IconButton(
                               onPressed: selectImage,
                               icon: const Icon(Icons.add_a_photo_outlined),
                               color: Colors.white,
                             ),
-                            bottom: -10,
                             // right: -10,
                           )
                         ],
@@ -167,6 +160,7 @@ class _SignUpScrennState extends State<SignUpScreen> {
                           if (value!.isEmpty) {
                             return ("Please Enter Your Email!");
                           }
+                          return null;
                           // reg expression
                         },
                       ),
@@ -200,13 +194,14 @@ class _SignUpScrennState extends State<SignUpScreen> {
                           if (value!.isEmpty) {
                             return ("Please Enter Your Email!");
                           }
+                          return null;
                           // reg expression
                         },
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-                      Text("Password"),
+                      const Text("Password"),
                       const SizedBox(
                         height: 10,
                       ),
@@ -233,15 +228,16 @@ class _SignUpScrennState extends State<SignUpScreen> {
                           if (value!.isEmpty) {
                             return ("Please Enter Your Email!");
                           }
+                          return null;
                           // reg expression
                         },
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       DropdownButtonHideUnderline(
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton2<String>(
                             isExpanded: true,
-                            hint: Text(
+                            hint: const Text(
                               'Select Type',
                               style: TextStyle(
                                   fontSize: 14,
@@ -274,37 +270,35 @@ class _SignUpScrennState extends State<SignUpScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       ElevatedButton(
                           onPressed: () {
                             signUp(email, password);
-                            // print("user " + email + " " + fullname);
-                            // print("user " + selectedValue!);
                           },
-                          child: Text('SingUp'),
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(
-                                  Color.fromARGB(255, 48, 93, 242)))),
-                      SizedBox(
+                                  const Color.fromARGB(255, 48, 93, 242))),
+                          child: const Text('SingUp')),
+                      const SizedBox(
                         height: 8,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             "Have you already account?",
                             style: TextStyle(fontSize: 13),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           GestureDetector(
                             onTap: () {
-                              Get.to(LoginScreen());
+                              Get.to(const LoginScreen());
                             },
-                            child: Text("Login",
+                            child: const Text("Login",
                                 style: TextStyle(
                                     fontSize: 13, color: Colors.amber)),
                           ),
@@ -335,10 +329,6 @@ class _SignUpScrennState extends State<SignUpScreen> {
   }
 
   postDetailsToFirestore() async {
-    // Calling Our Firebase Store
-    // Calling Our User Model
-    // Sending these Values
-
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? users = auth.currentUser;
 
@@ -350,19 +340,12 @@ class _SignUpScrennState extends State<SignUpScreen> {
     userModel.password = password;
     userModel.user_image = 'file?.path';
     userModel.user_role = selectedValue;
-
-    print(email);
-    print(email);
-    print(fullname);
-    print(password);
-    print(selectedValue);
-    print(_image);
     await firebaseFirestore
         .collection("users")
         .doc(users.uid)
         .set(userModel.toMap());
     Navigator.push(
-      context as BuildContext,
+      context,
       MaterialPageRoute(builder: (context) => const LoginScreen()),
     );
     Fluttertoast.showToast(msg: "ACCOUNT CREATED");

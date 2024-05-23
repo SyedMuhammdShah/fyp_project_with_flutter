@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_carousel_slider/flutter_custom_carousel_slider.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:fl_chart/fl_chart.dart';
 
-import '../../widgets/card_slider.dart';
 import '../../widgets/flutter_custom_carousel_slider.dart';
-import 'createStoreScreen.dart';
-import 'graphOrder.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -21,34 +14,34 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 18, 64, 215),
+        backgroundColor: const Color.fromARGB(255, 18, 64, 215),
         title: Image.asset('assets/images/logo.png'),
         actions: <Widget>[
-          CircleAvatar(
+          const CircleAvatar(
             backgroundImage: NetworkImage(
                 'https://hips.hearstapps.com/hmg-prod/images/gettyimages-693134468.jpg?crop=1xw:1.0xh;center,top&resize=1200:*'),
           ),
           PopupMenuButton(
             itemBuilder: (context) => [
-              PopupMenuItem(
-                child: Text('Create Store'),
+              const PopupMenuItem(
                 value: 1,
+                child: Text('Create Store'),
               ),
-              PopupMenuItem(
-                child: Text('Settings'),
+              const PopupMenuItem(
                 value: 2,
+                child: Text('Settings'),
               )
             ],
             onSelected: (int menu) {
               if (menu == 1) {
-                Get.to(CreateStore());
+                //Get.to(CreateStore());
               } else {}
             },
           )
         ],
       ),
       body: Container(
-        child: Column(
+        child: const Column(
           children: [
             Text(
               "Hey, SM Shah",
@@ -61,10 +54,7 @@ class _DashboardState extends State<Dashboard> {
             ),
             // CardSliderWidget(),
             CorauselCustom(),
-            SizedBox(
-              height: 30,
-            ),
-            GraphOrder(),
+           
           ],
         ),
       ),

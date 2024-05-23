@@ -1,11 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fyp_project/screens/Venders%20Screen/v_homeScreen.dart';
 import 'package:fyp_project/screens/Venders%20Screen/venders_Signup.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
-import '../Client/Client_home_screen.dart';
 import '../Vendor/Vendor_home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -20,6 +17,7 @@ final _auth = FirebaseAuth.instance;
 class _LoginScreenState extends State<LoginScreen> {
   late String email;
   late String password;
+  bool _obscureText = true;
   bool showSpinner = false;
   @override
   Widget build(BuildContext context) {
@@ -32,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Center(
             child: SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 30),
+                padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -43,11 +41,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 100,
                     ),
                     // Email Field
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Text("Email"),
-                    SizedBox(
+                    const Text("Email"),
+                    const SizedBox(
                       height: 10,
                     ),
                     TextFormField(
@@ -71,32 +69,51 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return ("Please Enter Your Email!");
+                          return "Please enter your email!";
                         }
-                        // reg expression
+                        // Email regex pattern
+                        String emailPattern =
+                            r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
+                        RegExp regExp = RegExp(emailPattern);
+                        if (!regExp.hasMatch(value)) {
+                          return 'Please enter a valid email address';
+                        }
+                        return null;
                       },
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Text("Password"),
-                    SizedBox(
+                    const Text("Password"),
+                    const SizedBox(
                       height: 10,
                     ),
                     TextFormField(
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
                         errorBorder: InputBorder.none,
                         disabledBorder: InputBorder.none,
-                        filled: true, //<-- SEE HERE
-                        fillColor: Color.fromARGB(68, 217, 216, 218),
-                        // border: UnderlineInputBorder(),
-
+                        filled: true,
+                        fillColor: const Color.fromARGB(68, 217, 216, 218),
                         hintText: "********",
-                        labelStyle: TextStyle(color: Colors.black),
+                        labelStyle: const TextStyle(color: Colors.black),
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _obscureText = !_obscureText;
+                            });
+                          },
+                          child: Icon(
+                            _obscureText
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Colors.grey,
+                          ),
+                        ),
                       ),
+                      obscureText: _obscureText,
                       onChanged: (value) {
                         setState(() {
                           password = value;
@@ -104,12 +121,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return ("Please Enter Your Email!");
+                          return ("Please Fill this Field!");
                         }
+                        return null;
                         // reg expression
                       },
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     // Animated Login Button
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -119,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              CheckboxExample(),
+                              const CheckboxExample(),
                               Text(
                                 "Remember me",
                                 style: TextStyle(color: Colors.grey[500]),
@@ -127,49 +145,102 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                           ),
                         ),
-                        Text(
+                        const Text(
                           "Forgot Password ?",
                           textAlign: TextAlign.end,
                         )
                       ],
                     ),
-
                     ElevatedButton(
                         onPressed: () async {
                           setState(() {
                             showSpinner = true;
                           });
-                          print("Logn");
+                          print("Login");
                           try {
                             final user = await _auth.signInWithEmailAndPassword(
-                                email: email, password: password);
-                            print("Logn");
-                            Get.to(VendorHomeScreen());
+                              email: email,
+                              password: password,
+                            );
+                            print("Login");
+                            Get.snackbar(email, "Login Successfully");
+                            Get.to(const VendorHomeScreen());
                           } catch (e) {
                             print(e);
+
+                            // Show alert dialog when login fails
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text("Login Failed"),
+                                  content: const Text(
+                                      "Incorrect email or password. Please try again."),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .pop(); // Close the dialog
+                                      },
+                                      child: const Text("OK"),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           }
-                          AlertDialog(
-                            title: Text("Login Successful"),
-                            content: Text("You have successfully logged in!"),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () {
-                                  Get.to(
-                                      VendorHomeScreen()); // Close the dialog
-                                },
-                                child: Text("OK"),
-                              ),
-                            ],
-                          );
                           setState(() {
                             showSpinner = false;
                           });
                         },
-                        child: Text('Login'),
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Color.fromARGB(255, 48, 93, 242)))),
-                    SizedBox(height: 5),
+                                const Color.fromARGB(255, 48, 93, 242))),
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                    // ElevatedButton(
+                    //     onPressed: () async {
+                    //       setState(() {
+                    //         showSpinner = true;
+                    //       });
+                    //       print("Logn");
+                    //       try {
+                    //         final user = await _auth.signInWithEmailAndPassword(
+                    //             email: email, password: password);
+                    //         print("Logn");
+
+                    //         Get.to(const VendorHomeScreen());
+                    //       } catch (e) {
+                    //         print(e);
+                    //       }
+                    //       AlertDialog(
+                    //         title: const Text("Login Successful"),
+                    //         content:
+                    //             const Text("You have successfully logged in!"),
+                    //         actions: <Widget>[
+                    //           TextButton(
+                    //             onPressed: () {
+                    //               Get.to(
+                    //                   const VendorHomeScreen()); // Close the dialog
+                    //             },
+                    //             child: const Text("OK"),
+                    //           ),
+                    //         ],
+                    //       );
+                    //       setState(() {
+                    //         showSpinner = false;
+                    //       });
+                    //     },
+                    //     style: ButtonStyle(
+                    //         backgroundColor: MaterialStateProperty.all(
+                    //             const Color.fromARGB(255, 48, 93, 242))),
+                    //     child: const Text(
+                    //       'Login',
+                    //       style: TextStyle(color: Colors.white),
+                    //     )),
+                    const SizedBox(height: 5),
 
                     ElevatedButton.icon(
                       onPressed: () {},
@@ -178,13 +249,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: 40,
                         height: 40,
                       ),
-                      label: Text("Sign in with Google"),
+                      label: const Text("Sign in with Google",
+                          style: TextStyle(color: Colors.white)),
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
-                              Color.fromARGB(122, 48, 93, 242))),
+                              const Color.fromARGB(122, 48, 93, 242))),
                       //borderRadius: BorderRadius.circular(25),
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
 
                     ElevatedButton.icon(
                       onPressed: () {},
@@ -193,30 +265,31 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: 30,
                         height: 40,
                       ),
-                      label: Text("Sign in with Facebook"),
+                      label: const Text("Sign in with Facebook",
+                          style: TextStyle(color: Colors.white)),
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
-                              Color.fromARGB(122, 48, 93, 242))),
+                              const Color.fromARGB(122, 48, 93, 242))),
                       //borderRadius: BorderRadius.circular(25),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           "You don't have an account yet?",
                           style: TextStyle(fontSize: 13),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
                         GestureDetector(
                           onTap: () {
-                            Get.to(VenderSignUp());
+                            Get.to(const VenderSignUp());
                           },
-                          child: Text("Sign up",
+                          child: const Text("Sign up",
                               style:
                                   TextStyle(fontSize: 13, color: Colors.amber)),
                         )

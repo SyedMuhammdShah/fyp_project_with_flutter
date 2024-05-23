@@ -1,19 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fyp_project/Client/order/order_screen.dart';
-import 'package:fyp_project/Vendor/store/create_store_screen.dart';
+import 'package:fyp_project/Vendor/order/show_order_screen.dart';
 import 'package:fyp_project/Vendor/store/view_store/vendor_view_store.dart';
-
-import '../Models/saveDataFireStroe.dart';
 import 'models/tabIcon_data.dart';
-import 'training/training_screen.dart';
-import 'categories/apparel/apparel_screen.dart';
 import 'package:flutter/material.dart';
 import 'bottom_navigation_view/bottom_bar_view.dart';
 import 'fitness_app_theme.dart';
 import 'my_diary/vendor_main_screen.dart';
 
 class VendorHomeScreen extends StatefulWidget {
+  const VendorHomeScreen({super.key});
+
   @override
   _VendorHomeScreenState createState() => _VendorHomeScreenState();
 }
@@ -30,9 +25,9 @@ class _VendorHomeScreenState extends State<VendorHomeScreen>
 
   @override
   void initState() {
-    tabIconsList.forEach((TabIconData tab) {
+    for (var tab in tabIconsList) {
       tab.isSelected = false;
-    });
+    }
     tabIconsList[0].isSelected = true;
 
     animationController = AnimationController(
@@ -87,7 +82,7 @@ class _VendorHomeScreenState extends State<VendorHomeScreen>
           tabIconsList: tabIconsList,
           addClick: () {},
           changeIndex: (int index) {
-            if (index == 0 || index == 2) {
+            if (index == 0) {
               animationController?.reverse().then<dynamic>((data) {
                 if (!mounted) {
                   return;
@@ -97,7 +92,8 @@ class _VendorHomeScreenState extends State<VendorHomeScreen>
                       animationController: animationController);
                 });
               });
-            } else if (index == 1 || index == 3) {
+            }
+            else if (index == 1) {
               animationController?.reverse().then<dynamic>((data) {
                 if (!mounted) {
                   return;
@@ -107,7 +103,21 @@ class _VendorHomeScreenState extends State<VendorHomeScreen>
                 //       TrainingScreen(animationController: animationController);
                 // });
                 setState(() {
-                  tabBody = VendorViewStore();
+                  tabBody = const ShowOrder();
+                });
+              });
+            } 
+            else if (index == 3 || index == 2) {
+              animationController?.reverse().then<dynamic>((data) {
+                if (!mounted) {
+                  return;
+                }
+                // setState(() {
+                //   tabBody =
+                //       TrainingScreen(animationController: animationController);
+                // });
+                setState(() {
+                  tabBody = const VendorViewStore();
                 });
               });
             }

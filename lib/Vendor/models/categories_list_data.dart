@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:fyp_project/Client/categories/fabrics/fabrics_screen.dart';
 import 'package:fyp_project/Client/categories/trims/trims_screen.dart';
+import 'package:fyp_project/Client/proposal/show_proposal.dart';
+import 'package:fyp_project/Vendor/proposal/vendor_proposal_screen.dart';
 
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../categories/Yarn/yarn_screen.dart';
 import '../categories/apparel/apparel_screen.dart';
@@ -29,48 +29,27 @@ class MealsListData {
 
   static List<MealsListData> tabIconsList = <MealsListData>[
     MealsListData(
-      imagePath: 'assets/introduction_animation/mood_dairy_image.png',
-      titleTxt: 'Apparels',
+      imagePath: 'assets/introduction_animation/proposal.png',
+      titleTxt: 'Proposal',
       kacl: 525,
-      meals: <String>['Shirts,', 'Polo Shirts,', 'Garments'],
+      meals: <String>['Hoodie,', 'Polo Shirts,', 'Garments'],
       startColor: '#FA7D82',
       endColor: '#FFB295',
       onTap: () {
-        Get.to(ApparelScreen());
+        Get.to(const VendorProposalScreen());
       },
     ),
     MealsListData(
       imagePath: 'assets/vendors_icons/yarn.png',
-      titleTxt: 'Yarn',
+      titleTxt: 'Order',
       kacl: 602,
       meals: <String>['Spun Yarns,', 'Filament Yarns,', 'Core-Spun'],
       startColor: '#738AE6',
       endColor: '#5C5EDD',
       onTap: () {
-        Get.to(YarnScreen());
+        Get.to(const VendorProposalScreen());
       },
     ),
-    MealsListData(
-      imagePath: 'assets/vendors_icons/fabrics.png',
-      titleTxt: 'Fabrics',
-      kacl: 200,
-      meals: <String>['Cotton,', 'Chiffon,', 'Chenille', 'etc'],
-      startColor: '#FE95B6',
-      endColor: '#FF5287',
-      onTap: () {
-        Get.to(FabricsScreen());
-      },
-    ),
-    MealsListData(
-      imagePath: 'assets/vendors_icons/trims.png',
-      titleTxt: 'Trims',
-      kacl: 10,
-      meals: <String>['Visible Trimmings,', 'invisible trimmings'],
-      startColor: '#6F72CA',
-      endColor: '#1E1466',
-      onTap: () {
-        Get.to(TrimsScreen());
-      },
-    ),
+
   ];
 }

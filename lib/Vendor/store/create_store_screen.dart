@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:fyp_project/screens/Venders%20Screen/venders_Signup.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import 'form_store/form_company_overview.dart';
 import 'form_store/form_product_basic _info.dart';
@@ -22,7 +20,7 @@ class _CreateStoreState extends State<CreateStore> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Store'),
+        title: const Text('Create Store'),
       ),
       body: Container(
         child: ListView(
@@ -71,7 +69,7 @@ class _CreateStoreState extends State<CreateStore> {
 
   Widget _buildExpansionTile(String title, List<Widget> children) {
     return Theme(
-      data: ThemeData(accentColor: Colors.blue),
+      data: ThemeData(hintColor: Colors.blue),
       child: ListTileTheme(
         dense: true,
         iconColor: Colors.blue,
@@ -79,15 +77,15 @@ class _CreateStoreState extends State<CreateStore> {
         child: ExpansionTile(
           title: Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.circle, // Circle icon
                 size: 16,
                 color: Colors.blue,
               ),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
               Text(
                 title,
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -110,12 +108,12 @@ class _CreateStoreState extends State<CreateStore> {
       child: ListTile(
         title: Row(
           children: [
-            Icon(
+            const Icon(
               Icons.circle_outlined, // Dot icon
               size: 12,
               color: Colors.blue,
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Text(title),
           ],
         ),
@@ -124,7 +122,7 @@ class _CreateStoreState extends State<CreateStore> {
   }
 
   Widget _buildVerticalDivider() {
-    return Divider(
+    return const Divider(
       color: Colors.blue,
       thickness: 2,
       height: 10,
@@ -133,15 +131,15 @@ class _CreateStoreState extends State<CreateStore> {
 
   void _showToast(BuildContext context, String title) {
     if (title == 'Product Basic Info') {
-      Get.to(FormProductBasicInfo());
+      Get.to(const FormProductBasicInfo());
     } else if (title == 'Product Description') {
-      Get.to(FormProductDescription());
+      Get.to(const FormProductDescription());
     } else if (title == 'Product Specification') {
-      Get.to(FormProductSpecification());
+      Get.to(const FormProductSpecification());
     } else if (title == 'Company OverView') {
-      Get.to(FormCompanyOverview());
+      Get.to(const FormCompanyOverview());
     } else if (title == 'Production Capacity') {
-      Get.to(FormProductionCapacity());
+      Get.to(const FormProductionCapacity());
     }
     Fluttertoast.showToast(
       msg: title,
