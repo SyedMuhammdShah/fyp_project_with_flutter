@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dropdown_textfield/dropdown_textfield.dart';
+//import 'package:dropdown_textfield/dropdown_textfield.dart';
 
 class FormProductionCapacity extends StatefulWidget {
   const FormProductionCapacity({super.key});
@@ -10,17 +10,17 @@ class FormProductionCapacity extends StatefulWidget {
 
 class _FormProductionCapacityState extends State<FormProductionCapacity> {
   final _formKey = GlobalKey<FormState>();
-  late SingleValueDropDownController _cnt;
+  //late SingleValueDropDownController _cnt;
 
   @override
   void initState() {
-    _cnt = SingleValueDropDownController();
+  //  _cnt = SingleValueDropDownController();
     super.initState();
   }
 
   @override
   void dispose() {
-    _cnt.dispose();
+   // _cnt.dispose();
     super.dispose();
   }
 
@@ -66,7 +66,7 @@ class _FormProductionCapacityState extends State<FormProductionCapacity> {
                                     height: 15,
                                   ),
                                   Row(
-                                    children: [
+                                     children: [
                                       Expanded(
                                         child: Padding(
                                           padding:

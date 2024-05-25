@@ -15,7 +15,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
-import 'package:dropdown_textfield/dropdown_textfield.dart';
+//import 'package:dropdown_textfield/dropdown_textfield.dart';
 
 // import '../Models/user_model.dart';
 
@@ -43,14 +43,14 @@ class _SignUpScrennState extends State<ClientSignUp> {
   String userType = "client";
   late PhoneNumber phoneNumber;
   String selectedVendorType = "";
-  late SingleValueDropDownController venderType;
+ // late SingleValueDropDownController venderType;
  void initState() {
-    venderType = SingleValueDropDownController();
+   // venderType = SingleValueDropDownController();
     super.initState();
   }
   @override
   void dispose() {
-    venderType.dispose();
+  //  venderType.dispose();
     super.dispose();
   }
 

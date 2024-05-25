@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dropdown_textfield/dropdown_textfield.dart';
+//import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +43,7 @@ class _CreateProposalScreenState extends State<CreateProposalScreen> {
   DateTime currentDate = DateTime.now(); // Store the current date
   DateTime currenttime = DateTime.now(); // Store the current date
   DateTime selectedDate = DateTime.now(); // Store the selected date
-  late SingleValueDropDownController _cnt;
+  //late SingleValueDropDownController _cnt;
   // late firebase_storage.FirebaseStorage storage =
   //     firebase_storage.FirebaseStorage.instance;
   late firebase_storage.FirebaseStorage storage;
@@ -52,13 +52,13 @@ class _CreateProposalScreenState extends State<CreateProposalScreen> {
   @override
   void initState() {
     storage = firebase_storage.FirebaseStorage.instance;
-    _cnt = SingleValueDropDownController();
+    //_cnt = SingleValueDropDownController();
     super.initState();
   }
 
   @override
   void dispose() {
-    _cnt.dispose();
+    //_cnt.dispose();
     super.dispose();
   }
 
@@ -134,45 +134,45 @@ class _CreateProposalScreenState extends State<CreateProposalScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    DropDownTextField(
-                      controller: _cnt,
-                      clearOption: true,
-                      searchDecoration: const InputDecoration(
-                          hintText: "enter your custom hint text here"),
-                      validator: (value) {
-                        if (value == null) {
-                          return "Required field";
-                        } else {
-                          return null;
-                        }
-                      },
-                      dropDownItemCount: 6,
-                      dropDownList: const [
-                        DropDownValueModel(name: 'Apparels', value: "Apparels"),
-                        DropDownValueModel(
-                          name: 'Yarn',
-                          value: "Yarn",
-                        ),
-                        DropDownValueModel(
-                          name: 'Fabrics',
-                          value: "Fabrics",
-                        ),
-                        DropDownValueModel(
-                          name: 'Trims',
-                          value: "Trims",
-                        ),
-                      ],
-                      onChanged: (value) {
-                        DropDownValueModel selectedValue =
-                            value as DropDownValueModel;
+                    // DropDownTextField(
+                    //   controller: _cnt,
+                    //   clearOption: true,
+                    //   searchDecoration: const InputDecoration(
+                    //       hintText: "enter your custom hint text here"),
+                    //   validator: (value) {
+                    //     if (value == null) {
+                    //       return "Required field";
+                    //     } else {
+                    //       return null;
+                    //     }
+                    //   },
+                    //   dropDownItemCount: 6,
+                    //   dropDownList: const [
+                    //     DropDownValueModel(name: 'Apparels', value: "Apparels"),
+                    //     DropDownValueModel(
+                    //       name: 'Yarn',
+                    //       value: "Yarn",
+                    //     ),
+                    //     DropDownValueModel(
+                    //       name: 'Fabrics',
+                    //       value: "Fabrics",
+                    //     ),
+                    //     DropDownValueModel(
+                    //       name: 'Trims',
+                    //       value: "Trims",
+                    //     ),
+                    //   ],
+                    //   onChanged: (value) {
+                    //     DropDownValueModel selectedValue =
+                    //         value as DropDownValueModel;
 
-                        // Update the selected value
-                        businesstype = selectedValue.value;
+                    //     // Update the selected value
+                    //     businesstype = selectedValue.value;
 
-                        // Print the selected value
-                        print("Selected Vendor Type: $businesstype");
-                      },
-                    ),
+                    //     // Print the selected value
+                    //     print("Selected Vendor Type: $businesstype");
+                    //   },
+                    // ),
                     SizedBox(
                       height: 10,
                     ),

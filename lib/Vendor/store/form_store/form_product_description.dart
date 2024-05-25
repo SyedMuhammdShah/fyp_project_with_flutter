@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:csc_picker/csc_picker.dart';
-import 'package:dropdown_textfield/dropdown_textfield.dart';
+//import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fyp_project/Models/VendorModels/model_form_product_description.dart';
 import 'package:fyp_project/Models/saveDataFireStroe.dart';
@@ -19,7 +19,7 @@ class FormProductDescription extends StatefulWidget {
 class _FormProductDescription extends State<FormProductDescription> {
   bool _loading = false;
   final _formKey = GlobalKey<FormState>();
-  late SingleValueDropDownController _cnt;
+ // late SingleValueDropDownController _cnt;
 
   // Fields Variables
   String printingMethods = "";
@@ -45,13 +45,13 @@ class _FormProductDescription extends State<FormProductDescription> {
   String address = "";
   @override
   void initState() {
-    _cnt = SingleValueDropDownController();
+   // _cnt = SingleValueDropDownController();
     super.initState();
   }
 
   @override
   void dispose() {
-    _cnt.dispose();
+  //  _cnt.dispose();
     super.dispose();
   }
 
@@ -595,40 +595,40 @@ class _FormProductDescription extends State<FormProductDescription> {
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        DropDownTextField(
-                                          controller: _cnt,
-                                          clearOption: true,
-                                          searchDecoration: const InputDecoration(
-                                              hintText:
-                                                  "enter your custom hint text here"),
-                                          validator: (value) {
-                                            if (value == null) {
-                                              return "Required field";
-                                            } else {
-                                              return null;
-                                            }
-                                          },
-                                          dropDownItemCount: 6,
-                                          dropDownList: const [
-                                            DropDownValueModel(
-                                                name: 'Male', value: "Male"),
-                                            DropDownValueModel(
-                                              name: 'Female',
-                                              value: "Female",
-                                            ),
-                                          ],
-                                          onChanged: (value) {
-                                            DropDownValueModel selectedValue =
-                                                value as DropDownValueModel;
+                                        // DropDownTextField(
+                                        //   controller: _cnt,
+                                        //   clearOption: true,
+                                        //   searchDecoration: const InputDecoration(
+                                        //       hintText:
+                                        //           "enter your custom hint text here"),
+                                        //   validator: (value) {
+                                        //     if (value == null) {
+                                        //       return "Required field";
+                                        //     } else {
+                                        //       return null;
+                                        //     }
+                                        //   },
+                                        //   dropDownItemCount: 6,
+                                        //   dropDownList: const [
+                                        //     DropDownValueModel(
+                                        //         name: 'Male', value: "Male"),
+                                        //     DropDownValueModel(
+                                        //       name: 'Female',
+                                        //       value: "Female",
+                                        //     ),
+                                        //   ],
+                                        //   onChanged: (value) {
+                                        //     DropDownValueModel selectedValue =
+                                        //         value as DropDownValueModel;
 
-                                            // Update the selected value
-                                            gender = selectedValue.value;
+                                        //     // Update the selected value
+                                        //     gender = selectedValue.value;
 
-                                            // Print the selected value
-                                            print(
-                                                "Selected Vendor Type: $gender");
-                                          },
-                                        ),
+                                        //     // Print the selected value
+                                        //     print(
+                                        //         "Selected Vendor Type: $gender");
+                                        //   },
+                                        // ),
                                       ],
                                     ),
                                   ),
@@ -913,33 +913,33 @@ class _FormProductDescription extends State<FormProductDescription> {
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        DropDownTextField(
-                                          controller: _cnt,
-                                          clearOption: true,
-                                          searchDecoration: const InputDecoration(
-                                              hintText:
-                                                  "enter your custom hint text here"),
-                                          validator: (value) {
-                                            if (value == null) {
-                                              return "Required field";
-                                            } else {
-                                              return null;
-                                            }
-                                          },
-                                          dropDownItemCount: 6,
-                                          dropDownList: const [
-                                            DropDownValueModel(
-                                                name: 'Support',
-                                                value: "Support"),
-                                            DropDownValueModel(
-                                              name: 'Not Support',
-                                              value: "Not Support",
-                                            ),
-                                          ],
-                                          onChanged: (val) {
-                                            sampleLead = val;
-                                          },
-                                        ),
+                                        // DropDownTextField(
+                                        //   controller: _cnt,
+                                        //   clearOption: true,
+                                        //   searchDecoration: const InputDecoration(
+                                        //       hintText:
+                                        //           "enter your custom hint text here"),
+                                        //   validator: (value) {
+                                        //     if (value == null) {
+                                        //       return "Required field";
+                                        //     } else {
+                                        //       return null;
+                                        //     }
+                                        //   },
+                                        //   dropDownItemCount: 6,
+                                        //   dropDownList: const [
+                                        //     DropDownValueModel(
+                                        //         name: 'Support',
+                                        //         value: "Support"),
+                                        //     DropDownValueModel(
+                                        //       name: 'Not Support',
+                                        //       value: "Not Support",
+                                        //     ),
+                                        //   ],
+                                        //   onChanged: (val) {
+                                        //     sampleLead = val;
+                                        //   },
+                                        // ),
                                       ],
                                     ),
                                   ),

@@ -11,7 +11,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import '../../Models/saveDataFireStroe.dart';
-import 'package:dropdown_textfield/dropdown_textfield.dart';
+//import 'package:dropdown_textfield/dropdown_textfield.dart';
 
 // import '../Models/user_model.dart';
 
@@ -40,16 +40,16 @@ class _SignUpScrennState extends State<VenderSignUp> {
   String storeName = "";
   late PhoneNumber phoneNumber;
   String selectedVendorType = "";
-  late SingleValueDropDownController venderType;
+  //late SingleValueDropDownController venderType;
   @override
   void initState() {
-    venderType = SingleValueDropDownController();
+    //venderType = SingleValueDropDownController();
     super.initState();
   }
 
   @override
   void dispose() {
-    venderType.dispose();
+   // venderType.dispose();
     super.dispose();
   }
 
@@ -519,46 +519,46 @@ class _SignUpScrennState extends State<VenderSignUp> {
                       const SizedBox(
                         height: 10,
                       ),
-                      DropDownTextField(
-                          controller: venderType,
-                          clearOption: true,
-                          searchDecoration: const InputDecoration(
-                              hintText: "enter your custom hint text here"),
-                          validator: (value) {
-                            if (value == null) {
-                              return "Required field";
-                            } else {
-                              return null;
-                            }
-                          },
-                          dropDownItemCount: 6,
-                          dropDownList: const [
-                            DropDownValueModel(
-                                name: 'Apparel', value: "Apparel"),
-                            DropDownValueModel(
-                              name: 'Yarn',
-                              value: "Yarn",
-                            ),
-                            DropDownValueModel(
-                              name: 'Fabrics',
-                              value: "Fabrics",
-                            ),
-                            DropDownValueModel(
-                              name: 'Trims',
-                              value: "Trims",
-                            ),
-                          ],
-                          onChanged: (value) {
-                            // Convert the dynamic type to DropDownValueModel
-                            DropDownValueModel selectedValue =
-                                value as DropDownValueModel;
+                      // DropDownTextField(
+                      //     controller: venderType,
+                      //     clearOption: true,
+                      //     searchDecoration: const InputDecoration(
+                      //         hintText: "enter your custom hint text here"),
+                      //     validator: (value) {
+                      //       if (value == null) {
+                      //         return "Required field";
+                      //       } else {
+                      //         return null;
+                      //       }
+                      //     },
+                      //     dropDownItemCount: 6,
+                      //     dropDownList: const [
+                      //       DropDownValueModel(
+                      //           name: 'Apparel', value: "Apparel"),
+                      //       DropDownValueModel(
+                      //         name: 'Yarn',
+                      //         value: "Yarn",
+                      //       ),
+                      //       DropDownValueModel(
+                      //         name: 'Fabrics',
+                      //         value: "Fabrics",
+                      //       ),
+                      //       DropDownValueModel(
+                      //         name: 'Trims',
+                      //         value: "Trims",
+                      //       ),
+                      //     ],
+                      //     onChanged: (value) {
+                      //       // Convert the dynamic type to DropDownValueModel
+                      //       DropDownValueModel selectedValue =
+                      //           value as DropDownValueModel;
 
-                            // Update the selected value
-                            selectedVendorType = selectedValue.value;
+                      //       // Update the selected value
+                      //       selectedVendorType = selectedValue.value;
 
-                            // Print the selected value
-                            print("Selected Vendor Type: $selectedVendorType");
-                          }),
+                      //       // Print the selected value
+                      //       print("Selected Vendor Type: $selectedVendorType");
+                      //     }),
 
                       const SizedBox(height: 10),
                       const Text("Phone Number"),

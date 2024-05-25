@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dropdown_textfield/dropdown_textfield.dart';
+//import 'package:dropdown_textfield/dropdown_textfield.dart';
 
 class FormProductSpecification extends StatefulWidget {
   const FormProductSpecification({super.key});
@@ -11,17 +11,17 @@ class FormProductSpecification extends StatefulWidget {
 
 class _FormProductSpecificationState extends State<FormProductSpecification> {
   final _formKey = GlobalKey<FormState>();
-  late SingleValueDropDownController _cnt;
+ // late SingleValueDropDownController _cnt;
 
   @override
   void initState() {
-    _cnt = SingleValueDropDownController();
+   // _cnt = SingleValueDropDownController();
     super.initState();
   }
 
   @override
   void dispose() {
-    _cnt.dispose();
+   // _cnt.dispose();
     super.dispose();
   }
 
